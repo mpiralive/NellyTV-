@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NellyTV — Panel ya Usimamizi (Admin)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-dark: #0b111e;
+    --bg-card: #131c2e;
+    --bg-input: #1a263d;
+    --green: #00a86b;
+    --gold: #f4a228;
+    --red: #ff3344;
+    --text: #ffffff;
+    --text-gray: #8a99ad;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  body { background-color: var(--bg-dark); color: var(--text); padding: 20px; }
+  
+  .container { max-width: 500px; margin: 0 auto; background: var(--bg-card); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); }
+  h2 { text-align: center; margin-bottom: 20px; font-weight: 700; color: var(--gold); }
+  
+  .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+  label { font-size: 12px; color: var(--text-gray); font-weight: 600; }
+  input { background: var(--bg-input); border: 1px solid rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; color: white; font-size: 16px; outline: none; }
+  
+  .btn { background: linear-gradient(135deg, var(--green), #00764d); color: white; border: none; padding: 14px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 14px; margin-top: 10px; }
+  .btn-danger { background: var(--red); margin-top: 5px; padding: 6px 12px; font-size: 11px; border-radius: 4px; border: none; color: white; cursor: pointer; }
+
+  .list-section { margin-top: 30px; }
+  .list-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text-gray); border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px; }
+  
+  .pass-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 4px solid var(--green); }
+  .pass-item.used { border-left-color: var(--text-gray); opacity: 0.6; }
+  .pass-info div { font-weight: 700; font-size: 16px; }
+  .pass-info span { font-size: 11px; color: var(--text-gray); }
+  .status-tag { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
+  .status-tag.active { background: rgba(0,168,107,0.2); color: var(--green); }
+  .status-tag.used { background: rgba(255,255,255,0.1); color: var(--text-gray); }
+</style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getDatabase, ref, set, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  // Configuration ya siri ya NellyTV kutoka Firebase yako
+  const firebaseConfig = {
+    apiKey: "AIzaSyBOYv4r1HBdmiTi lZIchXQ_w",
+    authDomain: "nellytv-86294.firebaseapp.com",
+    projectId: "nellytv-86294",
+    storageBucket: "nellytv-86294.appspot.com",
+    messagingSenderId: "878074217893",
+    appId: "1:878074217893:web:a68721b581e6"
+  };
+
+  // Kuanzisha Firebase
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Kazi ya kutengeneza Password fupi ya siri (Mfano: 5480)
+  window.generatePassword = function() {
+    const days = document.getElementById('validDays').value;
+    if(!days || days < 1) { alert("Weka idadi ya siku halali!"); return; }
+
+    // Kutengeneza namba ya siri ya kubahatisha ya tarakimu 4 (Kati ya 1000 na 9999)
+    const randomPass = Math.floor(1000 + Math.random() * 9000).toString();
+    
+    // Kutengeneza sehemu mpya kwenye Realtime Database chini ya '/vip_passwords'
+    const passwordsRef = ref(database, 'vip_passwords/' + randomPass);
+    
+    set(passwordsRef, {
+      password: randomPass,
+      days: parseInt(days),
+      status: "active", // Hadhi ya awali ni nzima
+      usedBy: "",
+      createdAt: new Date().toLocaleString('sw-TZ')
+    }).then(() => {
+      alert(`Hongera! Password ${randomPass} ya siku ${days} imetengenezwa na kuhifadhiwa kwenye Firebase.`);
+    }).catch((error) => {
+      alert("Imefeli kuhifadhi: " + error.message);
+    });
+  }
+
+  // Kazi ya kusoma password zilizopo kwenye database na kuzionyesha kwenye kioo cha Admin
+  const showPasswordsRef = ref(database, 'vip_passwords');
+  onValue(showPasswordsRef, (snapshot) => {
+    const listContainer = document.getElementById('passwordsList');
+    listContainer.innerHTML = "";
+    
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      // Kupanga orodha ili password mpya zionekane juu
+      Object.keys(data).reverse().forEach(key => {
+        const item = data[key];
+        const itemDiv = document.createElement('div');
+        itemDiv.className = `pass-item ${item.status === 'used' ? 'used' : ''}`;
+        
+        itemDiv.innerHTML = `
+          <div class="pass-info">
+            <div>${item.password}</div>
+            <span>Muda: ${item.days} Siku | ${item.createdAt}</span>
+          </div>
+          <div style="text-align: right;">
+            <span class="status-tag ${item.status}">${item.status === 'active' ? 'Nzima' : 'Imetumika'}</span><br>
+            <button class="btn-danger" onclick="deletePassword('${item.password}')">Futa</button>
+          </div>
+        `;
+        listContainer.appendChild(itemDiv);
+      });
+    } else {
+      listContainer.innerHTML = "<p style='text-align:center; font-size:12px; color:var(--text-gray);'>Hakuna password yoyote kwa sasa.</p>";
+    }
+  });
+
+  // Kazi ya kufuta password iliyochoka
+  window.deletePassword = function(passId) {
+    if(confirm(`Je, una uhakika unataka kuifuta password ${passId}?`)) {
+      const itemRef = ref(database, 'vip_passwords/' + passId);
+      remove(itemRef).then(() => { alert("Imefutwa!"); });
+    }
+  }
+</script>
+</head>
+<body>
+
+<div class="container">
+  <h2>NellyTV Admin Panel</h2>
+  
+  <div class="form-group">
+    <label>Muda wa Kumalizika Kifurushi (Siku):</label>
+    <input type="number" id="validDays" value="7" min="1">
+  </div>
+  
+  <button class="btn" onclick="generatePassword()">ZALISHA PASSWORD MPYA</button>
+  
+  <div class="list-section">
+    <div class="list-title">Orodha ya Password Zilizopo</div>
+    <div id="passwordsList">
+      </div>
+  </div>
+</div>
+
+</body>
+</html>
