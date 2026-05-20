@@ -1,25 +1,32 @@
-<div class="container">
-  <h2>NellyTV Admin Panel</h2>
-  
-  <div class="list-section">
-      <h3>Zalisha Password</h3>
-      <input type="number" id="validDays" value="7" placeholder="Siku">
-      <button class="btn" onclick="generatePassword()">ZALISHA PASSWORD</button>
-  </div>
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { background: #0b111e; color: white; font-family: sans-serif; padding: 20px; }
+  .container { max-width: 400px; margin: auto; background: #131c2e; padding: 20px; border-radius: 15px; }
+  input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
+  button { width: 100%; padding: 10px; background: #00a86b; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+  h2, h3 { color: #f4a228; text-align: center; }
+</style>
+</head>
+<body>
 
-  <div class="list-section" style="margin-top: 40px; border-top: 2px solid #00a86b; padding-top: 20px;">
-      <h3>Ongeza Mechi Live</h3>
-      <div class="form-group">
-          <input type="text" id="matchName" placeholder="Jina la Mechi (mf: Yanga vs Simba)">
-          <input type="text" id="matchLink" placeholder="Link ya Mechi (.m3u8)">
-          <button class="btn" style="background: #f4a228;" onclick="addMatch()">ONGEZA MECHI</button>
-      </div>
-  </div>
+<div class="container">
+  <h2>NellyTV Admin</h2>
+  <h3>Zalisha Password</h3>
+  <input type="number" id="validDays" value="7">
+  <button onclick="alert('Password itazalishwa!')">ZALISHA PASSWORD</button>
+
+  <h3 style="margin-top:30px">Ongeza Mechi Live</h3>
+  <input type="text" id="matchName" placeholder="Jina la Mechi">
+  <input type="text" id="matchLink" placeholder="Link (.m3u8)">
+  <button style="background: #f4a228;" onclick="addMatch()">ONGEZA MECHI</button>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, set, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBOYv4r1HBdmiTi lZIchXQ_w",
@@ -34,18 +41,13 @@
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  // Kazi ya kuongeza mechi
   window.addMatch = function() {
       const name = document.getElementById('matchName').value;
       const link = document.getElementById('matchLink').value;
-      
-      if(!name || !link) { alert("Jaza vyote!"); return; }
-
-      const newMatchRef = push(ref(database, 'matches'));
-      set(newMatchRef, {
-          name: name,
-          link: link,
-          status: "live"
-      }).then(() => alert("Mechi imeongezwa NellyTV!"));
+      if(!name || !link) { alert("Jaza vyote mkuu!"); return; }
+      push(ref(database, 'matches'), { name, link }).then(() => alert("Mechi imeongezwa!"));
   }
 </script>
+</body>
+</html>
+
