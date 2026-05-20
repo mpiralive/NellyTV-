@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="sw">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NellyTV</title>
-<style>
-    body { background: #0b111e; color: white; font-family: sans-serif; padding: 20px; }
-    .match-card { background: #131c2e; padding: 15px; margin-bottom: 10px; border-radius: 10px; border-left: 4px solid #00a86b; }
-    h2 { color: #f4a228; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NellyTV</title>
+    <style>
+        body { background: #0b111e; color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .header { font-weight: bold; font-size: 24px; color: #00a86b; margin-bottom: 10px; }
+        .promo { background: #d32f2f; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 20px; }
+        .match-card { background: #131c2e; padding: 20px; border-radius: 15px; border-left: 5px solid #d32f2f; margin-bottom: 15px; }
+        .match-title { font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+        .action-link { color: #00a86b; cursor: pointer; text-decoration: underline; }
+    </style>
 </head>
 <body>
 
-<h2>Mechi za Live Leo</h2>
-<div id="matchesList">Inatafuta mechi...</div>
+    <div class="header">NellyTV</div>
+    <div class="promo">
+        <a href="WEKA_LINK_YAKO_HAPA" style="color: white; text-decoration: none;">
+            <strong>🔥 OFA YA MERIDIANBET</strong><br>
+            Bonus ya 150% hadi TZS 2,500,000 unapojisajili!<br>
+            <span style="font-size: 0.8em; text-decoration: underline;">Jisajili SASA na weka jamvi lako 🚀</span>
+        </a>
+    </div>
+    
+    <h3>Mechi za Live Leo</h3>
+    <div id="matchesList">Inapakia...</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -32,23 +44,23 @@
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
 
-  const matchesRef = ref(database, 'matches');
-  onValue(matchesRef, (snapshot) => {
+  onValue(ref(database, 'matches'), (snapshot) => {
     const list = document.getElementById('matchesList');
     list.innerHTML = ""; 
-    
     if(snapshot.exists()) {
         snapshot.forEach((child) => {
-            const match = child.val();
-            list.innerHTML += `<div class="match-card">
-                <h3>${match.name}</h3>
-                <p>Link: ${match.link}</p>
+            const m = child.val();
+            list.innerHTML += `
+            <div class="match-card">
+                <div class="match-title">${m.name}</div>
+                <div class="action-link" onclick="alert('Ingiza password ya mechi hii!')">Ingiza Password kutazama →</div>
             </div>`;
         });
     } else {
-        list.innerHTML = "Hakuna mechi kwa sasa.";
+        list.innerHTML = "<p>Hakuna mechi kwa sasa.</p>";
     }
   });
 </script>
 </body>
 </html>
+
