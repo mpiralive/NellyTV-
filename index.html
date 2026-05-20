@@ -70,7 +70,6 @@
     100% { transform: translate3d(-100%, 0, 0); }
   }
 
-  /* MERIDIANBET BANNER SLIDER */
   .slider-wrapper { margin: 16px; overflow: hidden; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
   .meridian-banner-slider {
     background: linear-gradient(135deg, var(--meridian-red), #990e13);
@@ -91,7 +90,6 @@
   .section-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
   .section-title { font-size: 14px; font-weight: 600; }
 
-  /* MATCH LIST */
   .matches-list { display: flex; flex-direction: column; gap: 10px; }
   .match-strip { background-color: var(--bg-card); border-radius: 14px; padding: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.02); }
   .match-main-content { display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
@@ -107,11 +105,12 @@
 
   @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-  /* OVERLAY MODAL */
+  /* VIDEO CONTAINER STYLING */
+  #playerContainer { width: 100%; aspect-ratio: 16/9; background: #000; margin-bottom: 15px; border-radius: 8px; overflow: hidden; display: none; }
+
   .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.95); z-index: 1000; display: none; flex-direction: column; justify-content: center; align-items: center; padding: 16px; overflow-y: auto; }
   .close-btn { position: absolute; top: 16px; right: 20px; font-size: 32px; cursor: pointer; color: var(--text-white); }
   
-  /* PAYWALL CARD SCREEN */
   .paywall-card { text-align: center; width: 100%; max-width: 360px; padding: 22px; background: var(--bg-card); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
   .paywall-icon { font-size: 40px; color: var(--gold); margin-bottom: 8px; }
   .paywall-title { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
@@ -121,21 +120,76 @@
   .price-item { flex: 1; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 8px; border-radius: 10px; font-size: 12px; font-weight: 700; }
   .price-item span { display: block; font-size: 9px; color: var(--green-primary); }
 
-  /* SEHEMU MPYA YA MAELEKO YA KULIPIA */
   .instruction-box { background: rgba(0,168,107,0.05); border: 1px dashed rgba(0,168,107,0.3); padding: 14px; border-radius: 12px; font-size: 12px; text-align: left; margin-bottom: 16px; color: #cbd5e1; line-height: 1.6; }
   .instruction-box strong { color: var(--gold); }
 
   .phone-input-group { display: flex; flex-direction: column; text-align: left; margin-bottom: 16px; }
   .phone-input-group label { font-size: 11px; font-weight: 600; color: var(--text-gray); margin-bottom: 6px; }
-  .phone-input-group input { background: var(--bg-input); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; color: white; font-size: 14px; font-weight: 600; outline: none; text-align: center; letter-spacing: 2px; }
+  .phone-input-group input { background: var(--bg-input); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; color: white; font-size: 16px; font-weight: 700; outline: none; text-align: center; letter-spacing: 4px; }
 
   .pay-btn { background: linear-gradient(135deg, var(--green-primary), #00764d); color: var(--text-white); border: none; padding: 12px; width: 100%; font-weight: 700; font-size: 13px; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,168,107,0.2); }
 
-  /* BOTTOM NAV */
   .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background-color: var(--bg-card); border-top: 1px solid rgba(255,255,255,0.05); display: flex; height: 64px; z-index: 100; }
   .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-gray); font-size: 10px; font-weight: 600; gap: 4px; }
   .nav-item.active { color: var(--green-primary); }
 </style>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  // Configuration ya siri ya NellyTV kutoka Firebase yako
+  const firebaseConfig = {
+    apiKey: "AIzaSyBOYv4r1HBdmiTi lZIchXQ_w",
+    authDomain: "nellytv-86294.firebaseapp.com",
+    projectId: "nellytv-86294",
+    storageBucket: "nellytv-86294.appspot.com",
+    messagingSenderId: "878074217893",
+    appId: "1:878074217893:web:a68721b581e6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const database = getDatabase(app);
+
+  // Kazi ya kukagua Password kutoka Firebase
+  window.verifyPassword = function() {
+    const passValue = document.getElementById('passwordInput').value.trim();
+    if(!passValue) { 
+      alert("Tafadhali weka hiyo Password uliyotumiwa na Admin!"); 
+      return; 
+    }
+
+    // Kutafuta password kwenye database kwenye njia ya 'vip_passwords/NAMBA'
+    const passRef = ref(database, 'vip_passwords/' + passValue);
+
+    get(passRef).then((snapshot) => {
+      if (snapshot.exists()) {
+        const passwordData = snapshot.val();
+
+        // 1. Kuangalia kama imeshatumiwa na mtu mwingine
+        if (passwordData.status === "used") {
+          alert("❌ Samahani! Password hii imeshatumika kwenye kifaa kingine. Nunua vocha yako mpya.");
+          return;
+        }
+
+        // 2. Kama ni nzima, tunaifunga isitumiwe tena na kuibadilisha kuwa 'used'
+        update(passRef, {
+          status: "used",
+          usedBy: "Mteja_" + Math.floor(1000 + Math.random() * 9000)
+        }).then(() => {
+          alert("✅ Password imethibitishwa kikamilifu! Kifurushi chako kimeamilishwa.");
+          closeMedia();
+          playVipStream();
+        });
+
+      } else {
+        alert("❌ Password uliyoweka si sahihi au haipo kwenye mfumo wetu. Tafadhali kagua vizuri!");
+      }
+    }).catch((error) => {
+      alert("Kuna hitilafu ya mtandao: " + error.message);
+    });
+  }
+</script>
 </head>
 <body>
 
@@ -144,7 +198,11 @@
 </header>
 
 <div class="broadcast-ticker">
-  <div class="ticker-text" id="broadcastTickerText">📢 Tangazo: Lipia kifurushi chako sasa na utume ujumbe kwenda 0628816557 ili upewe Password yako ya VIP haraka!</div>
+  <div class="ticker-text">📢 Tangazo: Lipia kifurushi chako sasa na utume ujumbe kwenda 0628816557 ili upewe Password yako ya VIP haraka!</div>
+</div>
+
+<div style="padding: 0 16px; margin-top: 15px;">
+  <div id="playerContainer"></div>
 </div>
 
 <div class="slider-wrapper">
@@ -166,7 +224,7 @@
         <div class="match-info">
           <span class="match-league">Ligi Kuu Bara</span>
           <span class="match-teams">Yanga SC vs Simba SC</span>
-          <span class="match-watch-btn">Ingiza Password kutazama →</span>
+          <span class="match-watch-btn" id="watchBtnText">Ingiza Password kutazama →</span>
         </div>
         <div class="match-status"><span class="status-badge live-now">• LIVE 45'</span></div>
       </div>
@@ -212,21 +270,32 @@
 </div>
 
 <script>
+  let player;
+
   function openMedia(title) {
+    // Kama tayari ameshaingiza password na video inaplay, asifunguliwe tena paywall
+    if(document.getElementById('playerContainer').style.display === 'block') {
+      return;
+    }
     document.getElementById('mediaModal').style.display = 'flex';
     document.getElementById('paywallTitle').innerText = title + " (VIP)";
   }
 
   function closeMedia() { document.getElementById('mediaModal').style.display = 'none'; }
 
-  function verifyPassword() {
-    const passValue = document.getElementById('passwordInput').value.trim();
-    if(!passValue) { 
-      alert("Tafadhali weka hiyo Password uliyotumiwa na Admin!"); 
-      return; 
-    }
+  function playVipStream() {
+    document.getElementById('playerContainer').style.display = 'block';
+    document.getElementById('watchBtnText').innerText = "▶️ Inacheza Sasa (VIP Active)";
+    document.getElementById('watchBtnText').style.color = "#00a86b";
     
-    alert(`Umeandika Password: ${passValue}\n\n[Mambo yamekaa sawa! Tukishaunganisha na Firebase, mfumo utakagua hapa kama namba hii uliyopewa bado ni nzima, kisha utafungua mechi kiotomatiki.]`);
+    // Hapa tunaweka ule mpira wa VIP uanze kucheza live
+    player = new Clappr.Player({
+      source: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8", // Link yako ya mechi
+      parentId: "#playerContainer",
+      width: "100%",
+      height: "100%",
+      autoPlay: true
+    });
   }
 </script>
 </body>
