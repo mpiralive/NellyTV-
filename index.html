@@ -3,1010 +3,394 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MpiraLIVE — Scores za Dunia Nzima</title>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<title>MpiraLIVE — Premium Streaming App</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+
 <style>
   :root {
-    --green: #1a7a3c;
-    --green-dark: #0f5227;
-    --green-light: #25a352;
-    --green-neon: #2ecc71;
-    --white: #ffffff;
-    --off-white: #f4faf6;
-    --gray: #e8f5ed;
-    --text-dark: #0d2e1a;
-    --text-mid: #2d6b47;
-    --live-red: #e63946;
+    --bg-dark: #0a0f1d;
+    --bg-card: #121829;
+    --cyan: #00d2ff;
     --gold: #f4a228;
+    --text-white: #ffffff;
+    --text-gray: #7e8ba2;
+    --live-red: #ff3344;
+    --green-free: #00e676;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
   body {
-    font-family: 'Noto Sans', sans-serif;
-    background: var(--off-white);
-    color: var(--text-dark);
+    background-color: var(--bg-dark);
+    color: var(--text-white);
     min-height: 100vh;
+    padding-bottom: 90px;
   }
 
+  /* Header style kama NURHD TV */
   header {
-    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-light) 100%);
-    padding: 0 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-  }
-
-  .header-inner {
-    max-width: 480px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-  }
-
-  .logo {
-    font-family: 'Oswald', sans-serif;
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--white);
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .logo span { color: var(--green-neon); }
-
-  .live-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--live-red);
-    border-radius: 50%;
-    animation: pulse 1.2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.4); }
-  }
-
-  .header-date { font-size: 12px; color: rgba(255,255,255,0.75); }
-
-  .ad-banner {
-    background: linear-gradient(90deg, var(--green-dark), var(--green));
-    color: white;
-    text-align: center;
-    padding: 10px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    border-bottom: 2px solid var(--green-neon);
-  }
-
-  .ad-banner strong { color: var(--green-neon); }
-
-  .nav-tabs {
-    background: var(--white);
-    border-bottom: 2px solid var(--gray);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .nav-tabs::-webkit-scrollbar { display: none; }
-
-  .tabs-inner { display: flex; max-width: 480px; margin: 0 auto; padding: 0 8px; }
-
-  .tab {
-    flex-shrink: 0;
-    padding: 12px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-mid);
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .tab.active { color: var(--green); border-bottom-color: var(--green); }
-
-  main { max-width: 480px; margin: 0 auto; padding: 12px 12px 80px; }
-
-  .league-section { margin-bottom: 16px; }
-
-  .league-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    background: var(--green-dark);
-    border-radius: 10px 10px 0 0;
-    color: white;
-  }
-
-  .league-flag { font-size: 18px; }
-  .league-name { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; flex: 1; }
-
-  .match-card {
-    background: var(--white);
-    border-left: 3px solid transparent;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--gray);
-    cursor: pointer;
-    position: relative;
-  }
-
-  .match-card:last-child { border-radius: 0 0 10px 10px; border-bottom: none; }
-
-  .match-card.live { border-left-color: var(--live-red); background: #fff8f8; }
-  .match-card.finished { border-left-color: var(--green); }
-  .match-card.upcoming { border-left-color: var(--gold); }
-
-  .match-time { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
-  .time-live { color: var(--live-red); display: flex; align-items: center; gap: 4px; }
-  .time-live::before { content: ''; width: 6px; height: 6px; background: var(--live-red); border-radius: 50%; animation: pulse 1s infinite; }
-  .time-finished { color: var(--text-mid); }
-  .time-upcoming { color: var(--gold); }
-
-  .match-teams { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .team { display: flex; align-items: center; gap: 8px; flex: 1; }
-  .team.away { flex-direction: row-reverse; text-align: right; }
-  .team-logo { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-  .team-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
-
-  .score-box { display: flex; align-items: center; gap: 6px; }
-  .score { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; min-width: 20px; text-align: center; }
-  .score.live-score { color: var(--live-red); }
-
-  .meridi-ad {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border-radius: 12px;
+    background-color: var(--bg-dark);
     padding: 16px;
-    margin: 16px 0;
-    color: white;
-    cursor: pointer;
-  }
-  .meridi-title { font-family: 'Oswald', sans-serif; font-size: 16px; color: var(--green-neon); margin-bottom: 6px; }
-  .meridi-desc { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
-  .meridi-btn { background: var(--green-neon); color: var(--text-dark); border: none; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 13px; }
-
-  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 2px solid var(--gray); display: flex; z-index: 100; }
-  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 10px 0; color: #999; font-size: 10px; font-weight: 600; gap: 3px; }
-  .nav-item.active { color: var(--green); }
-  .nav-icon { font-size: 20px; }
-
-  .loading { text-align: center; padding: 40px; color: var(--text-mid); }
-  .spinner { width: 32px; height: 32px; border: 3px solid var(--gray); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .empty-state { text-align: center; padding: 30px; color: #999; font-size: 13px; }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="header-inner">
-    <div class="logo"><div class="live-dot"></div>Mpira<span>LIVE</span></div>
-    <div class="header-date" id="currentDate"></div>
-  </div>
-</header>
-
-<div class="ad-banner" onclick="window.open('https://a.meridianbet.co.tz/c/86FF4z','_blank')">
-  🎁 <strong>Meridianbet</strong> — Bonus ya 150% hadi TZS 2,500,000! Jisajili SASA →
-</div>
-
-<div class="nav-tabs">
-  <div class="tabs-inner">
-    <div class="tab active" onclick="filterLeague('all', event)">🌍 Zote</div>
-    <div class="tab" onclick="filterLeague('en', event)"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> EPL</div>
-    <div class="tab" onclick="filterLeague('es', event)"><span class="flag">🇪🇸</span> LaLiga</div>
-    <div class="tab" onclick="filterLeague('it', event)"><span class="flag">🇮🇹</span> Serie A</div>
-    <div class="tab" onclick="filterLeague('de', event)"><span class="flag">🇩🇪</span> Bundesliga</div>
-    <div class="tab" onclick="filterLeague('fr', event)"><span class="flag">🇫🇷</span> Ligue 1</div>
-  </div>
-</div>
-
-<main id="mainContent">
-  <div class="loading">
-    <div class="spinner"></div>
-    Inapakia mechi za hivi karibuni...
-  </div>
-</main>
-
-<div class="bottom-nav">
-  <div class="nav-item active"><span class="nav-icon">⚽</span>Mechi</div>
-  <div class="nav-item"><span class="nav-icon">📊</span>Msimamo</div>
-  <div class="nav-item"><span class="nav-icon">🔔</span>Taarifa</div>
-  <div class="nav-item"><span class="nav-icon">💰</span>Beti</div>
-</div>
-
-<script>
-// Set tarehe ya sasa
-const now = new Date();
-const days = ['Jumapili','Jumatatu','Jumanne','Jumatano','Alhamisi','Ijumaa','Jumamosi'];
-const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ago','Sep','Okt','Nov','Des'];
-document.getElementById('currentDate').textContent = `${days[now.getDay()]} , ${now.getDate()} ${months[now.getMonth()]}`;
-
-let currentFilter = 'all';
-let allMatches = [];
-
-// Mfumo mpya thabiti usio na shida ya CORS mtandaoni
-async function loadAllMatches() {
-  try {
-    // Tunatumia API salama ya umma inayoruhusu mifumo ya CORS ya mbele bila kufeli
-    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.1.json'));
-    const data = await res.json();
-    const parsedData = JSON.parse(data.contents);
-    
-    if(parsedData && parsedData.rounds) {
-      allMatches = [];
-      // Chukua mechi za round ya mwisho zilizopo karibu kwa mfano wa uhakika wa matokeo
-      const latestRound = parsedData.rounds[parsedData.rounds.length - 1];
-      
-      latestRound.matches.forEach(m => {
-        allMatches.push({
-          league: 'en',
-          leagueName: 'Premier League',
-          flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-          home: m.team1,
-          away: m.team2,
-          homeScore: m.score ? m.score.ft[0] : 0,
-          awayScore: m.score ? m.score.ft[1] : 2,
-          status: m.score ? 'finished' : 'upcoming',
-          time: m.time || '22:00'
-        });
-      });
-      renderMatches();
-    } else {
-      showError();
-    }
-  } catch (error) {
-    console.log(error);
-    // Ikifeli, weka data nzuri za majaribio (Mock Data) ili ukurasa usizunguke bure kamwe!
-    loadMockData();
-  }
-}
-
-function loadMockData() {
-  allMatches = [
-    { league: 'en', leagueName: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', home: 'Arsenal', away: 'Chelsea', homeScore: 2, awayScore: 1, status: 'live', time: '68\'' },
-    { league: 'en', leagueName: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', home: 'Man City', away: 'Man United', homeScore: 3, awayScore: 0, status: 'finished', time: 'Imekwisha' },
-    { league: 'es', leagueName: 'La Liga', flag: '🇪🇸', home: 'Real Madrid', away: 'Barcelona', homeScore: null, awayScore: null, status: 'upcoming', time: '23:00' },
-    { league: 'it', leagueName: 'Serie A', flag: '🇮🇹', home: 'Juventus', away: 'AC Milan', homeScore: 1, awayScore: 1, status: 'live', time: 'HT' }
-  ];
-  renderMatches();
-}
-
-function filterLeague(league, event) {
-  currentFilter = league;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  if (event) event.target.classList.add('active');
-  renderMatches();
-}
-
-function renderMatches() {
-  const main = document.getElementById('mainContent');
-  const filtered = currentFilter === 'all' ? allMatches : allMatches.filter(m => m.league === currentFilter);
-
-  if (filtered.length === 0) {
-    main.innerHTML = '<div class="empty-state">⚽ Hakuna mechi kwa sasa hivi hapa</div>';
-    return;
-  }
-
-  let html = `
-    <div class="meridi-ad" onclick="window.open('https://a.meridianbet.co.tz/c/86FF4z','_blank')">
-      <div class="meridi-title">🎯 Beti Mechi Hizi — Meridianbet!</div>
-      <div class="meridi-desc">Jisajili leo upate bonus ya 150% hadi TZS 2,500,000. Lipa kwa M-Pesa!</div>
-      <button class="meridi-btn">JISAJILI BURE →</button>
-    </div>
-  `;
-
-  // Grouping
-  const groups = {};
-  filtered.forEach(m => {
-    if (!groups[m.leagueName]) groups[m.leagueName] = { flag: m.flag, matches: [] };
-    groups[m.leagueName].matches.push(m);
-  });
-
-  Object.entries(groups).forEach(([leagueName, data]) => {
-    html += `
-      <div class="league-section">
-        <div class="league-header">
-          <span class="league-flag">${data.flag}</span>
-          <span class="league-name">${leagueName}</span>
-        </div>
-    `;
-
-    data.matches.forEach(m => {
-      let timeHtml = m.status === 'live' ? `<span class="time-live">${m.time}</span>` : (m.status === 'finished' ? `<span class="time-finished">✓ ${m.time}</span>` : `<span class="time-upcoming">🕐 ${m.time}</span>`);
-      let hScore = m.homeScore !== null ? m.homeScore : '-';
-      let aScore = m.awayScore !== null ? m.awayScore : '-';
-
-      html += `
-        <div class="match-card ${m.status}">
-          <div class="match-time">${timeHtml}</div>
-          <div class="match-teams">
-            <div class="team home"><div class="team-logo">⚽</div><div class="team-name">${m.home}</div></div>
-            <div class="score-box">
-              <span class="score ${m.status === 'live' ? 'live-score' : ''}">${hScore}</span>
-              <span>:</span>
-              <span class="score ${m.status === 'live' ? 'live-score' : ''}">${aScore}</span>
-            </div>
-            <div class="team away"><div class="team-logo">⚽</div><div class="team-name">${m.away}</div></div>
-          </div>
-        </div>
-      `;
-    });
-    html += '</div>';
-  });
-
-  main.innerHTML = html;
-}
-
-function showError() {
-  document.getElementById('mainContent').innerHTML = '<div class="empty-state">⚠️ Mfumo unashindwa kuunganisha data. Jaribu baadae kidogo.</div>';
-}
-
-loadAllMatches();
-setInterval(loadAllMatches, 60000);
-</script>
-</body>
-</html>
-ilterLeague('wc')"><span class="flag">🌍</span> World Cup</div>
-    <div class="tab" onclick="filterLeague('it')"><span class="flag">🇮🇹</span> Serie A</div>
-    <div class="tab" onclick="filterLeague('de')"><span class="flag">🇩🇪</span> Bundesliga</div>
-  </div>
-</div>
-
-<!-- MAIN -->
-<main id="mainContent">
-  <div class="loading">
-    <div class="spinner"></div>
-    Inapakia mechi...
-  </div>
-</main>
-
-<!-- BOTTOM NAV -->
-<div class="bottom-nav">
-  <div class="nav-item active">
-    <span class="nav-icon">⚽</span>
-    Mechi
-  </div>
-  <div class="nav-item">
-    <span class="nav-icon">📊</span>
-    Msimamo
-  </div>
-  <div class="nav-item">
-    <span class="nav-icon">🔔</span>
-    Taarifa
-  </div>
-  <div class="nav-item">
-    <span class="nav-icon">💰</span>
-    Beti
-  </div>
-</div>
-
-<script>
-// API Configuration
-const API_KEY = '2a273e8d77738763f78f54e71d76d4f13aa4a4e0f4f1ffcc5e5a5c411eaa2bd4';
-const API_BASE = 'https://v3.football.api-sports.io';
-
-// League IDs na mapping
-const LEAGUES = {
-  all: { ids: [39, 135, 140, 78, 2, 3, 848, 9, 627, 29], name: 'Zote', flag: '🌍' },
-  tz:  { ids: [627], name: 'NBC Premier League', flag: '🇹🇿' },
-  en:  { ids: [39], name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-  cl:  { ids: [2], name: 'UEFA Champions League', flag: '🏆' },
-  es:  { ids: [140], name: 'La Liga', flag: '🇪🇸' },
-  wc:  { ids: [1], name: 'World Cup', flag: '🌍' },
-  it:  { ids: [135], name: 'Serie A', flag: '🇮🇹' },
-  de:  { ids: [78], name: 'Bundesliga', flag: '🇩🇪' },
-};
-
-const LEAGUE_META = {
-  39:  { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', key: 'en' },
-  135: { name: 'Serie A', flag: '🇮🇹', key: 'it' },
-  140: { name: 'La Liga', flag: '🇪🇸', key: 'es' },
-  78:  { name: 'Bundesliga', flag: '🇩🇪', key: 'de' },
-  2:   { name: 'UEFA Champions League', flag: '🏆', key: 'cl' },
-  3:   { name: 'UEFA Europa League', flag: '🏆', key: 'cl' },
-  848: { name: 'UEFA Conference League', flag: '🏆', key: 'cl' },
-  9:   { name: 'World Cup', flag: '🌍', key: 'wc' },
-  627: { name: 'NBC Premier League', flag: '🇹🇿', key: 'tz' },
-  29:  { name: 'AFCON', flag: '🌍', key: 'wc' },
-};
-
-// Set current date
-const now = new Date();
-const days = ['Jumapili','Jumatatu','Jumanne','Jumatano','Alhamisi','Ijumaa','Jumamosi'];
-const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ago','Sep','Okt','Nov','Des'];
-document.getElementById('currentDate').textContent = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
-
-let currentFilter = 'all';
-let allMatches = [];
-
-// Get today's date formatted
-function getTodayDate() {
-  const d = new Date();
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
-
-// Fetch matches from API
-async function fetchMatches(leagueIds) {
-  const today = getTodayDate();
-  const allFixtures = [];
-
-  for (const leagueId of leagueIds) {
-    try {
-      const res = await fetch(`${API_BASE}/fixtures?date=${today}&league=${leagueId}&season=2025`, {
-        headers: {
-          'x-apisports-key': API_KEY
-        }
-      });
-      const data = await res.json();
-      if (data.response && data.response.length > 0) {
-        allFixtures.push(...data.response);
-      }
-    } catch(e) {
-      console.log('Error fetching league', leagueId, e);
-    }
-  }
-  return allFixtures;
-}
-
-// Convert API fixture to our format
-function convertFixture(fixture) {
-  const f = fixture.fixture;
-  const home = fixture.teams.home;
-  const away = fixture.teams.away;
-  const goals = fixture.goals;
-  const leagueId = fixture.league.id;
-  const meta = LEAGUE_META[leagueId] || { name: fixture.league.name, flag: '🌍', key: 'all' };
-
-  // Determine status
-  let status = 'upcoming';
-  let timeDisplay = '';
-
-  const shortStatus = f.status.short;
-  if (['1H','2H','HT','ET','P','LIVE'].includes(shortStatus)) {
-    status = 'live';
-    timeDisplay = f.status.elapsed ? `${f.status.elapsed}'` : 'LIVE';
-  } else if (['FT','AET','PEN'].includes(shortStatus)) {
-    status = 'finished';
-    timeDisplay = 'Imekwisha';
-  } else {
-    status = 'upcoming';
-    const matchTime = new Date(f.date);
-    timeDisplay = matchTime.toLocaleTimeString('sw', { hour: '2-digit', minute: '2-digit', timeZone: 'Africa/Dar_es_Salaam' });
-  }
-
-  return {
-    league: meta.key,
-    leagueName: meta.name,
-    flag: meta.flag,
-    home: home.name,
-    homeEmoji: '⚽',
-    homeLogo: home.logo,
-    away: away.name,
-    awayEmoji: '⚽',
-    awayLogo: away.logo,
-    homeScore: goals.home,
-    awayScore: goals.away,
-    status,
-    time: timeDisplay,
-    stats: []
-  };
-}
-
-function filterLeague(league) {
-  currentFilter = league;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  event.target.closest('.tab').classList.add('active');
-  renderMatches();
-}
-
-function renderMatches() {
-  const main = document.getElementById('mainContent');
-  const filtered = currentFilter === 'all'
-    ? allMatches
-    : allMatches.filter(m => m.league === currentFilter);
-
-  if (filtered.length === 0) {
-    main.innerHTML = '<div class="empty-state">⚽ Hakuna mechi leo kwa ligi hii</div>';
-    return;
-  }
-
-  // Group by league
-  const groups = {};
-  filtered.forEach(m => {
-    const key = m.leagueName;
-    if (!groups[key]) groups[key] = { flag: m.flag, matches: [] };
-    groups[key].matches.push(m);
-  });
-
-  let html = '';
-
-  const liveCount = filtered.filter(m => m.status === 'live').length;
-  if (liveCount > 0) {
-    html += `<div class="section-title">🔴 LIVE SASA (${liveCount})</div>`;
-  }
-
-  html += `
-    <div class="meridi-ad" onclick="window.open('https://a.meridianbet.co.tz/c/86FF4z','_blank')">
-      <div class="meridi-title">🎯 Beti Mechi Hizi — Meridianbet!</div>
-      <div class="meridi-desc">Jisajili leo upate bonus ya 150% hadi TZS 2,500,000. Lipa kwa M-Pesa!</div>
-      <button class="meridi-btn">JISAJILI BURE →</button>
-<!DOCTYPE html>
-<html lang="sw">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MpiraLIVE — Scores za Dunia Nzima</title>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --green: #1a7a3c;
-    --green-dark: #0f5227;
-    --green-light: #25a352;
-    --green-neon: #2ecc71;
-    --white: #ffffff;
-    --off-white: #f4faf6;
-    --gray: #e8f5ed;
-    --text-dark: #0d2e1a;
-    --text-mid: #2d6b47;
-    --live-red: #e63946;
-    --gold: #f4a228;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Noto Sans', sans-serif;
-    background: var(--off-white);
-    color: var(--text-dark);
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  header {
-    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-light) 100%);
-    padding: 0 16px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-  }
-
-  .header-inner {
-    max-width: 480px;
-    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
   }
 
-  .logo {
+  .logo-box {
+    background: linear-gradient(135deg, #0099ff, var(--cyan));
+    padding: 8px 16px;
+    border-radius: 10px;
     font-family: 'Oswald', sans-serif;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
-    color: var(--white);
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .logo span {
-    color: var(--green-neon);
-  }
-
-  .live-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--live-red);
-    border-radius: 50%;
-    animation: pulse 1.2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.4); }
-  }
-
-  .header-date {
-    font-size: 12px;
-    color: rgba(255,255,255,0.75);
-  }
-
-  /* AD BANNER */
-  .ad-banner {
-    background: linear-gradient(90deg, var(--green-dark), var(--green));
-    color: white;
-    text-align: center;
-    padding: 10px 16px;
-    font-size: 13px;
-    cursor: pointer;
-    border-bottom: 2px solid var(--green-neon);
-  }
-
-  .ad-banner strong { color: var(--green-neon); }
-
-  /* NAV TABS */
-  .nav-tabs {
-    background: var(--white);
-    border-bottom: 2px solid var(--gray);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .nav-tabs::-webkit-scrollbar { display: none; }
-
-  .tabs-inner {
-    display: flex;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 8px;
-  }
-
-  .tab {
-    flex-shrink: 0;
-    padding: 12px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-mid);
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-    transition: all 0.2s;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-
-  .tab.active {
-    color: var(--green);
-    border-bottom-color: var(--green);
-  }
-
-  .tab .flag { font-size: 14px; }
-
-  /* MAIN */
-  main {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 12px 12px 80px;
-  }
-
-  /* SECTION HEADER */
-  .league-section { margin-bottom: 16px; }
-
-  .league-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    background: var(--green-dark);
-    border-radius: 10px 10px 0 0;
-    color: white;
-  }
-
-  .league-flag { font-size: 18px; }
-
-  .league-name {
-    font-family: 'Oswald', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
     letter-spacing: 0.5px;
-    flex: 1;
+    box-shadow: 0 4px 10px rgba(0,210,255,0.3);
   }
 
-  .league-count {
-    font-size: 11px;
-    background: rgba(255,255,255,0.2);
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
+  .header-icons { display: flex; gap: 16px; align-items: center; }
+  .icon-btn { font-size: 20px; cursor: pointer; color: var(--text-white); }
 
-  /* MATCH CARD */
-  .match-card {
-    background: var(--white);
-    border-left: 3px solid transparent;
-    padding: 12px 14px;
-    border-bottom: 1px solid var(--gray);
-    cursor: pointer;
-    transition: all 0.15s;
+  /* Banner Slider Simulator */
+  .banner-slider {
+    margin: 0 16px 24px;
+    height: 160px;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60') center/cover;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
     position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
   }
 
-  .match-card:last-child {
-    border-radius: 0 0 10px 10px;
-    border-bottom: none;
+  .banner-text h3 { font-size: 16px; font-weight: 600; }
+  .banner-text p { font-size: 11px; color: var(--cyan); }
+
+  .dots-container {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    display: flex;
+    gap: 6px;
+  }
+  .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+  .dot.active { width: 18px; background: var(--cyan); border-radius: 4px; }
+
+  /* Sections handles */
+  .section-container { margin-bottom: 24px; padding: 0 16px; }
+  
+  .section-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .section-title { font-size: 15px; font-weight: 600; }
+  .see-all { color: var(--cyan); font-size: 12px; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+
+  /* Grid Layout ya Chaneli */
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 
-  .match-card:hover { background: var(--off-white); }
-
-  .match-card.live {
-    border-left-color: var(--live-red);
-    background: #fff8f8;
+  .channel-card {
+    background-color: var(--bg-card);
+    border-radius: 14px;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: transform 0.2s;
   }
+  .channel-card:active { transform: scale(0.95); }
 
-  .match-card.finished { border-left-color: var(--green); }
-  .match-card.upcoming { border-left-color: var(--gold); }
-
-  .match-time {
-    font-size: 11px;
-    font-weight: 600;
+  .image-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #1e2640, #121829);
+    border-radius: 12px;
     margin-bottom: 8px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
   }
 
-  .time-live {
-    color: var(--live-red);
-    display: flex;
-    align-items: center;
-    gap: 4px;
+  .channel-name { font-size: 11px; font-weight: 500; color: #e1e7f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+  
+  /* Badges: VIP na FREE */
+  .badge {
+    margin-top: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
   }
+  .badge.vip { background-color: rgba(244,162,40,0.15); color: var(--gold); border: 1px solid rgba(244,162,40,0.3); }
+  .badge.free { background-color: rgba(0,230,118,0.15); color: var(--green-free); border: 1px solid rgba(0,230,118,0.3); }
 
-  .time-live::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: var(--live-red);
+  /* Kufuli ya VIP */
+  .lock-icon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.6);
     border-radius: 50%;
-    animation: pulse 1s infinite;
-  }
-
-  .time-finished { color: var(--text-mid); }
-  .time-upcoming { color: var(--gold); font-weight: 700; }
-
-  .match-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .team {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-  }
-
-  .team.away { flex-direction: row-reverse; text-align: right; }
-
-  .team-logo {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--gray);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
+    font-size: 11px;
+    color: var(--gold);
+    backdrop-filter: blur(4px);
   }
 
-  .team-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-dark);
-    line-height: 1.2;
-  }
-
-  .score-box {
-    display: flex;
+  /* Mfumo wa Video Player Pop-up */
+  .player-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(5, 7, 15, 0.98);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .score {
-    font-family: 'Oswald', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-dark);
-    min-width: 24px;
-    text-align: center;
-    line-height: 1;
-  }
-
-  .score-divider {
-    font-size: 16px;
-    color: #ccc;
-    font-weight: 300;
-  }
-
-  .score.live-score { color: var(--live-red); }
-
-  .match-stats {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-  }
-
-  .stat-badge {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    background: var(--gray);
-    color: var(--text-mid);
-    font-weight: 500;
-  }
-
-  /* MERIDIANBET AD */
-  .meridi-ad {
-    background: linear-gradient(135deg, #1a1a2e, #16213e);
-    border-radius: 12px;
     padding: 16px;
-    margin: 16px 0;
-    color: white;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
   }
+  .close-player { position: absolute; top: 20px; right: 20px; font-size: 30px; cursor: pointer; }
+  #videoPlayerBox { width: 100%; max-width: 480px; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; }
 
-  .meridi-ad::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 100px;
-    height: 100px;
-    background: var(--green-neon);
-    opacity: 0.1;
-    border-radius: 50%;
-  }
-
-  .meridi-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    color: var(--green-neon);
-    margin-bottom: 6px;
-  }
-
-  .meridi-desc { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
-
-  .meridi-btn {
-    background: var(--green-neon);
-    color: var(--text-dark);
-    border: none;
-    padding: 8px 20px;
+  /* Paywall Screen (Inatokea asiyelipia akibonyeza VIP) */
+  .paywall-box {
+    text-align: center;
+    max-width: 340px;
+    padding: 24px;
+    background: var(--bg-card);
     border-radius: 20px;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: 0.5px;
+    border: 1px solid rgba(244,162,40,0.3);
+    display: none;
+  }
+  .paywall-icon { font-size: 48px; color: var(--gold); margin-bottom: 12px; }
+  .paywall-price { font-size: 24px; font-weight: 700; color: var(--text-white); margin: 10px 0; }
+  .paywall-btn {
+    background: linear-gradient(135deg, #ff9900, var(--gold));
+    color: #000; border: none; padding: 12px 30px;
+    font-weight: 700; border-radius: 30px; margin-top: 16px;
+    width: 100%; cursor: pointer;
   }
 
-  /* BOTTOM NAV */
+  /* Bottom Navigation kama ya NURHD TV */
   .bottom-nav {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    border-top: 2px solid var(--gray);
+    bottom: 0; left: 0; right: 0;
+    background-color: var(--bg-card);
+    border-top: 1px solid rgba(255,255,255,0.05);
     display: flex;
+    height: 68px;
     z-index: 100;
   }
-
   .nav-item {
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0;
+    justify-content: center;
+    color: var(--text-gray);
+    font-size: 11px;
+    font-weight: 500;
+    gap: 4px;
     cursor: pointer;
-    color: #999;
-    font-size: 10px;
-    font-weight: 600;
-    gap: 3px;
-    transition: color 0.2s;
   }
-
-  .nav-item.active { color: var(--green); }
+  .nav-item.active { color: var(--cyan); }
   .nav-icon { font-size: 20px; }
 
-  /* SECTION TITLE */
-  .section-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 14px;
-    color: var(--text-mid);
-    padding: 8px 4px;
-    margin-bottom: 4px;
+  /* WhatsApp Floating Button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 84px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+    background-color: #25d366;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 8px;
-  }
-
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--gray);
-  }
-
-  /* LOADING */
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-mid);
-  }
-
-  .spinner {
-    width: 32px;
-    height: 32px;
-    border: 3px solid var(--gray);
-    border-top-color: var(--green);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .empty-state {
-    text-align: center;
-    padding: 30px;
-    color: #999;
-    font-size: 13px;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 10px rgba(37,211,102,0.3);
+    z-index: 99;
+    cursor: pointer;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="header-inner">
-    <div class="logo">
-      <div class="live-dot"></div>
-      Mpira<span>LIVE</span>
-    </div>
-    <div class="header-date" id="currentDate"></div>
+  <div class="logo-box">MpiraLIVE TV</div>
+  <div class="header-icons">
+    <span class="icon-btn">☀️</span>
+    <span class="icon-btn">🔄</span>
+    <span class="icon-btn">🔍</span>
   </div>
 </header>
 
-<div class="ad-banner" onclick="window.open('https://a.meridianbet.co.tz/c/86FF4z','_blank')">
-  🎁 <strong>Meridianbet</strong> — Bonus ya 150% hadi TZS 2,500,000! Jisajili SASA →
-</div>
-
-<div class="nav-tabs">
-  <div class="tabs-inner">
-    <div class="tab active" onclick="filterLeague('all', event)">🌍 Zote</div>
-    <div class="tab" onclick="filterLeague('tz', event)"><span class="flag">🇹🇿</span> Tanzania</div>
-    <div class="tab" onclick="filterLeague('en', event)"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> EPL</div>
-    <div class="tab" onclick="filterLeague('cl', event)"><span class="flag">🏆</span> UCL</div>
-    <div class="tab" onclick="filterLeague('es', event)"><span class="flag">🇪🇸</span> LaLiga</div>
-    <div class="tab" onclick="filterLeague('wc', event)"><span class="flag">🌍</span> World Cup</div>
-    <div class="tab" onclick="filterLeague('it', event)"><span class="flag">🇮🇹</span> Serie A</div>
-    <div class="tab" onclick="filterLeague('de', event)"><span class="flag">🇩🇪</span> Bundesliga</div>
+<div class="banner-slider">
+  <div class="banner-text">
+    <h3>Msimu Mpya wa EPL Live</h3>
+    <p>Tazama mechi zote katika HD bila kukwama</p>
+  </div>
+  <div class="dots-container">
+    <div class="dot"></div>
+    <div class="dot active"></div>
+    <div class="dot"></div>
   </div>
 </div>
 
-<main id="mainContent">
-  <div class="loading">
-    <div class="spinner"></div>
-    Inapakia mechi...
+<div class="section-container">
+  <div class="section-title-bar">
+    <div class="section-title">Sports Channels</div>
+    <a href="#" class="see-all">Tazama Zote (19) →</a>
   </div>
-</main>
+  
+  <div class="channels-grid">
+    <div class="channel-card" onclick="handleChannelClick('Azam Sport 1 HD', 'vip', 'https://sample.vod.video.live/stream1/index.m3u8')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">⚽</div>
+      <div class="channel-name">Azam Sport 1 HD</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Azam Sport 2 HD', 'vip', 'https://sample.vod.video.live/stream2/index.m3u8')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">🏆</div>
+      <div class="channel-name">Azam Sport 2 HD</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Azam Sport 3 HD', 'vip', 'https://sample.vod.video.live/stream3/index.m3u8')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">🌍</div>
+      <div class="channel-name">Azam Sport 3 HD</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+  </div>
+</div>
+
+<div class="section-container">
+  <div class="section-title-bar">
+    <div class="section-title">Global & Local Channels</div>
+    <a href="#" class="see-all">Tazama Zote (22) →</a>
+  </div>
+  
+  <div class="channels-grid">
+    <div class="channel-card" onclick="handleChannelClick('UTV Tanzania', 'free', 'https://rtmp.live.utv.tz/live/stream.m3u8')">
+      <div class="image-wrapper">📺</div>
+      <div class="channel-name">UTV</div>
+      <span class="badge free">✓ FREE</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Wasafi TV', 'vip', '')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">🎵</div>
+      <div class="channel-name">Wasafi TV</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Crown TV', 'vip', '')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">👑</div>
+      <div class="channel-name">Crown TV</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+  </div>
+</div>
+
+<div class="whatsapp-float" onclick="window.open('https://wa.me/255712345678?text=Habari,%20nahitaji%20kulipia%20kifurushi%20cha%20MpiraLIVE%20TV', '_blank')">
+  💬
+</div>
+
+<div id="playerModal" class="player-modal">
+  <span class="close-player" onclick="closePlayer()">&times;</span>
+  
+  <div id="videoPlayerBox"></div>
+
+  <div id="paywallBox" class="paywall-box">
+    <div class="paywall-icon">🔒</div>
+    <h3 id="paywallTitle">Chaneli ya VIP</h3>
+    <p style="font-size: 13px; color: var(--text-gray); margin-top: 6px;">Kifurushi chako kimeisha! Lipia ili uendelee kufurahia mechi mubashara katika HD.</p>
+    <div class="paywall-price">TSH 1,000 / Wiki</div>
+    <button class="paywall-btn" onclick="redirectToPayment()">LIPIA SASA (M-PESA / TIGO)</button>
+  </div>
+</div>
 
 <div class="bottom-nav">
-  <div class="nav-item active">
-    <span class="nav-icon">⚽</span>
-    Mechi
-  </div>
-  <div class="nav-item">
-    <span class="nav-icon">📊</span>
-    Msimamo
-  </div>
-  <div class="nav-item">
+  <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
+  <div class="nav-item" onclick="switchTab('malipo')"><span class="nav-icon">💳</span>Malipo</div>
+  <div class="nav-item" onclick="switchTab('profile')"><span class="nav-icon">👤</span>Profile</div>
+</div>
+
+<script>
+  let playerInstance = null;
+  // Hapa weka namba yako ya WhatsApp kwa ajili ya kupokea meseji za malipo
+  const WHATSAPP_NUMBER = "255712345678"; 
+
+  function handleChannelClick(name, type, streamUrl) {
+    const modal = document.getElementById('playerModal');
+    const playerBox = document.getElementById('videoPlayerBox');
+    const paywall = document.getElementById('paywallBox');
+    
+    modal.style.display = 'flex';
+
+    if (type === 'vip') {
+      // Kama ni VIP, ficha player na uonyeshe skrini ya kuzuia (Paywall)
+      playerBox.style.display = 'none';
+      paywall.style.display = 'block';
+      document.getElementById('paywallTitle').innerText = name + " (VIP)";
+    } else {
+      // Kama ni FREE, ficha Paywall, weka player na ucheze video!
+      paywall.style.display = 'none';
+      playerBox.style.display = 'block';
+      
+      // Kuanzisha Clappr Player
+      playerInstance = new Clappr.Player({
+        source: streamUrl || "https://clappr.io/highline.mp4", // Video ya majaribio kama huna link ya m3u8 bado
+        parentId: "#videoPlayerBox",
+        width: "100%",
+        height: "100%",
+        autoPlay: true
+      });
+    }
+  }
+
+  function closePlayer() {
+    document.getElementById('playerModal').style.display = 'none';
+    if (playerInstance) {
+      playerInstance.destroy();
+      playerInstance = null;
+    }
+  }
+
+  function redirectToPayment() {
+    // Inamrudisha mteja kwenye WhatsApp yako moja kwa moja akiwa na ujumbe wa kulipia
+    const customMessage = encodeURIComponent("Habari, nahitaji kuunganishwa na huduma ya VIP kwenye MpiraLIVE TV. Namba yangu ya akaunti ni: " + Math.floor(1000 + Math.random() * 9000));
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${customMessage}`, '_blank');
+  }
+
+  function switchTab(tabName) {
+    alert("Ukurasa wa " + tabName.toUpperCase() + " unakuja hivi punde! Endelea kutengeneza ukurasa wa nyumbani kwanza.");
+  }
+</script>
+</body>
+</html>
     <span class="nav-icon">🔔</span>
     Taarifa
   </div>
@@ -1245,6 +629,399 @@ loadAllMatches();
 setInterval(() => {
   loadAllMatches();
 }, 45000);
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MpiraLIVE — Premium Streaming App</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+
+<style>
+  :root {
+    --bg-dark: #0a0f1d;
+    --bg-card: #121829;
+    --cyan: #00d2ff;
+    --gold: #f4a228;
+    --text-white: #ffffff;
+    --text-gray: #7e8ba2;
+    --live-red: #ff3344;
+    --green-free: #00e676;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+  body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    min-height: 100vh;
+    padding-bottom: 90px;
+  }
+
+  /* Header style kama NURHD TV */
+  header {
+    background-color: var(--bg-dark);
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo-box {
+    background: linear-gradient(135deg, #0099ff, var(--cyan));
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 10px rgba(0,210,255,0.3);
+  }
+
+  .header-icons { display: flex; gap: 16px; align-items: center; }
+  .icon-btn { font-size: 20px; cursor: pointer; color: var(--text-white); }
+
+  /* Banner Slider Simulator */
+  .banner-slider {
+    margin: 0 16px 24px;
+    height: 160px;
+    background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=500&auto=format&fit=crop&q=60') center/cover;
+    border-radius: 16px;
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .banner-text h3 { font-size: 16px; font-weight: 600; }
+  .banner-text p { font-size: 11px; color: var(--cyan); }
+
+  .dots-container {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    display: flex;
+    gap: 6px;
+  }
+  .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+  .dot.active { width: 18px; background: var(--cyan); border-radius: 4px; }
+
+  /* Sections handles */
+  .section-container { margin-bottom: 24px; padding: 0 16px; }
+  
+  .section-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .section-title { font-size: 15px; font-weight: 600; }
+  .see-all { color: var(--cyan); font-size: 12px; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+
+  /* Grid Layout ya Chaneli */
+  .channels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .channel-card {
+    background-color: var(--bg-card);
+    border-radius: 14px;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.02);
+    transition: transform 0.2s;
+  }
+  .channel-card:active { transform: scale(0.95); }
+
+  .image-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #1e2640, #121829);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+  }
+
+  .channel-name { font-size: 11px; font-weight: 500; color: #e1e7f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%; }
+  
+  /* Badges: VIP na FREE */
+  .badge {
+    margin-top: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+  }
+  .badge.vip { background-color: rgba(244,162,40,0.15); color: var(--gold); border: 1px solid rgba(244,162,40,0.3); }
+  .badge.free { background-color: rgba(0,230,118,0.15); color: var(--green-free); border: 1px solid rgba(0,230,118,0.3); }
+
+  /* Kufuli ya VIP */
+  .lock-icon {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 22px;
+    height: 22px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--gold);
+    backdrop-filter: blur(4px);
+  }
+
+  /* Mfumo wa Video Player Pop-up */
+  .player-modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(5, 7, 15, 0.98);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+  }
+  .close-player { position: absolute; top: 20px; right: 20px; font-size: 30px; cursor: pointer; }
+  #videoPlayerBox { width: 100%; max-width: 480px; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; }
+
+  /* Paywall Screen (Inatokea asiyelipia akibonyeza VIP) */
+  .paywall-box {
+    text-align: center;
+    max-width: 340px;
+    padding: 24px;
+    background: var(--bg-card);
+    border-radius: 20px;
+    border: 1px solid rgba(244,162,40,0.3);
+    display: none;
+  }
+  .paywall-icon { font-size: 48px; color: var(--gold); margin-bottom: 12px; }
+  .paywall-price { font-size: 24px; font-weight: 700; color: var(--text-white); margin: 10px 0; }
+  .paywall-btn {
+    background: linear-gradient(135deg, #ff9900, var(--gold));
+    color: #000; border: none; padding: 12px 30px;
+    font-weight: 700; border-radius: 30px; margin-top: 16px;
+    width: 100%; cursor: pointer;
+  }
+
+  /* Bottom Navigation kama ya NURHD TV */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background-color: var(--bg-card);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    height: 68px;
+    z-index: 100;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-gray);
+    font-size: 11px;
+    font-weight: 500;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .nav-item.active { color: var(--cyan); }
+  .nav-icon { font-size: 20px; }
+
+  /* WhatsApp Floating Button */
+  .whatsapp-float {
+    position: fixed;
+    bottom: 84px;
+    right: 16px;
+    width: 50px;
+    height: 50px;
+    background-color: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    box-shadow: 0 4px 10px rgba(37,211,102,0.3);
+    z-index: 99;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-box">MpiraLIVE TV</div>
+  <div class="header-icons">
+    <span class="icon-btn">☀️</span>
+    <span class="icon-btn">🔄</span>
+    <span class="icon-btn">🔍</span>
+  </div>
+</header>
+
+<div class="banner-slider">
+  <div class="banner-text">
+    <h3>Msimu Mpya wa EPL Live</h3>
+    <p>Tazama mechi zote katika HD bila kukwama</p>
+  </div>
+  <div class="dots-container">
+    <div class="dot"></div>
+    <div class="dot active"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
+<div class="section-container">
+  <div class="section-title-bar">
+    <div class="section-title">Sports Channels</div>
+    <a href="#" class="see-all">Tazama Zote (19) →</a>
+  </div>
+  
+  <div class="channels-grid">
+    <div class="channel-card" onclick="handleChannelClick('Azam Sport 1 HD', 'vip', 'https://sample.vod.video.live/stream1/index.m3u8')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">⚽</div>
+      <div class="channel-name">Azam Sport 1 HD</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Azam Sport 2 HD', 'vip', 'https://sample.vod.video.live/stream2/index.m3u8')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">🏆</div>
+      <div class="channel-name">Azam Sport 2 HD</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Azam Sport 3 HD', 'vip', 'https://sample.vod.video.live/stream3/index.m3u8')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">🌍</div>
+      <div class="channel-name">Azam Sport 3 HD</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+  </div>
+</div>
+
+<div class="section-container">
+  <div class="section-title-bar">
+    <div class="section-title">Global & Local Channels</div>
+    <a href="#" class="see-all">Tazama Zote (22) →</a>
+  </div>
+  
+  <div class="channels-grid">
+    <div class="channel-card" onclick="handleChannelClick('UTV Tanzania', 'free', 'https://rtmp.live.utv.tz/live/stream.m3u8')">
+      <div class="image-wrapper">📺</div>
+      <div class="channel-name">UTV</div>
+      <span class="badge free">✓ FREE</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Wasafi TV', 'vip', '')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">🎵</div>
+      <div class="channel-name">Wasafi TV</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+    <div class="channel-card" onclick="handleChannelClick('Crown TV', 'vip', '')">
+      <div class="lock-icon">🔒</div>
+      <div class="image-wrapper">👑</div>
+      <div class="channel-name">Crown TV</div>
+      <span class="badge vip">⭐ VIP</span>
+    </div>
+  </div>
+</div>
+
+<div class="whatsapp-float" onclick="window.open('https://wa.me/255712345678?text=Habari,%20nahitaji%20kulipia%20kifurushi%20cha%20MpiraLIVE%20TV', '_blank')">
+  💬
+</div>
+
+<div id="playerModal" class="player-modal">
+  <span class="close-player" onclick="closePlayer()">&times;</span>
+  
+  <div id="videoPlayerBox"></div>
+
+  <div id="paywallBox" class="paywall-box">
+    <div class="paywall-icon">🔒</div>
+    <h3 id="paywallTitle">Chaneli ya VIP</h3>
+    <p style="font-size: 13px; color: var(--text-gray); margin-top: 6px;">Kifurushi chako kimeisha! Lipia ili uendelee kufurahia mechi mubashara katika HD.</p>
+    <div class="paywall-price">TSH 1,000 / Wiki</div>
+    <button class="paywall-btn" onclick="redirectToPayment()">LIPIA SASA (M-PESA / TIGO)</button>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
+  <div class="nav-item" onclick="switchTab('malipo')"><span class="nav-icon">💳</span>Malipo</div>
+  <div class="nav-item" onclick="switchTab('profile')"><span class="nav-icon">👤</span>Profile</div>
+</div>
+
+<script>
+  let playerInstance = null;
+  // Hapa weka namba yako ya WhatsApp kwa ajili ya kupokea meseji za malipo
+  const WHATSAPP_NUMBER = "255712345678"; 
+
+  function handleChannelClick(name, type, streamUrl) {
+    const modal = document.getElementById('playerModal');
+    const playerBox = document.getElementById('videoPlayerBox');
+    const paywall = document.getElementById('paywallBox');
+    
+    modal.style.display = 'flex';
+
+    if (type === 'vip') {
+      // Kama ni VIP, ficha player na uonyeshe skrini ya kuzuia (Paywall)
+      playerBox.style.display = 'none';
+      paywall.style.display = 'block';
+      document.getElementById('paywallTitle').innerText = name + " (VIP)";
+    } else {
+      // Kama ni FREE, ficha Paywall, weka player na ucheze video!
+      paywall.style.display = 'none';
+      playerBox.style.display = 'block';
+      
+      // Kuanzisha Clappr Player
+      playerInstance = new Clappr.Player({
+        source: streamUrl || "https://clappr.io/highline.mp4", // Video ya majaribio kama huna link ya m3u8 bado
+        parentId: "#videoPlayerBox",
+        width: "100%",
+        height: "100%",
+        autoPlay: true
+      });
+    }
+  }
+
+  function closePlayer() {
+    document.getElementById('playerModal').style.display = 'none';
+    if (playerInstance) {
+      playerInstance.destroy();
+      playerInstance = null;
+    }
+  }
+
+  function redirectToPayment() {
+    // Inamrudisha mteja kwenye WhatsApp yako moja kwa moja akiwa na ujumbe wa kulipia
+    const customMessage = encodeURIComponent("Habari, nahitaji kuunganishwa na huduma ya VIP kwenye MpiraLIVE TV. Namba yangu ya akaunti ni: " + Math.floor(1000 + Math.random() * 9000));
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${customMessage}`, '_blank');
+  }
+
+  function switchTab(tabName) {
+    alert("Ukurasa wa " + tabName.toUpperCase() + " unakuja hivi punde! Endelea kutengeneza ukurasa wa nyumbani kwanza.");
+  }
 </script>
 </body>
 </html>
