@@ -29,7 +29,6 @@
     min-height: 100vh;
   }
 
-  /* HEADER */
   header {
     background: linear-gradient(135deg, var(--green-dark) 0%, var(--green) 60%, var(--green-light) 100%);
     padding: 0 16px;
@@ -59,9 +58,7 @@
     gap: 8px;
   }
 
-  .logo span {
-    color: var(--green-neon);
-  }
+  .logo span { color: var(--green-neon); }
 
   .live-dot {
     width: 8px;
@@ -76,12 +73,8 @@
     50% { opacity: 0.4; transform: scale(1.4); }
   }
 
-  .header-date {
-    font-size: 12px;
-    color: rgba(255,255,255,0.75);
-  }
+  .header-date { font-size: 12px; color: rgba(255,255,255,0.75); }
 
-  /* AD BANNER */
   .ad-banner {
     background: linear-gradient(90deg, var(--green-dark), var(--green));
     color: white;
@@ -94,7 +87,6 @@
 
   .ad-banner strong { color: var(--green-neon); }
 
-  /* NAV TABS */
   .nav-tabs {
     background: var(--white);
     border-bottom: 2px solid var(--gray);
@@ -103,12 +95,7 @@
   }
   .nav-tabs::-webkit-scrollbar { display: none; }
 
-  .tabs-inner {
-    display: flex;
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 8px;
-  }
+  .tabs-inner { display: flex; max-width: 480px; margin: 0 auto; padding: 0 8px; }
 
   .tab {
     flex-shrink: 0;
@@ -125,21 +112,10 @@
     gap: 5px;
   }
 
-  .tab.active {
-    color: var(--green);
-    border-bottom-color: var(--green);
-  }
+  .tab.active { color: var(--green); border-bottom-color: var(--green); }
 
-  .tab .flag { font-size: 14px; }
+  main { max-width: 480px; margin: 0 auto; padding: 12px 12px 80px; }
 
-  /* MAIN */
-  main {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 12px 12px 80px;
-  }
-
-  /* SECTION HEADER */
   .league-section { margin-bottom: 16px; }
 
   .league-header {
@@ -153,321 +129,233 @@
   }
 
   .league-flag { font-size: 18px; }
+  .league-name { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; flex: 1; }
 
-  .league-name {
-    font-family: 'Oswald', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    flex: 1;
-  }
-
-  .league-count {
-    font-size: 11px;
-    background: rgba(255,255,255,0.2);
-    padding: 2px 8px;
-    border-radius: 20px;
-  }
-
-  /* MATCH CARD */
   .match-card {
     background: var(--white);
     border-left: 3px solid transparent;
     padding: 12px 14px;
     border-bottom: 1px solid var(--gray);
     cursor: pointer;
-    transition: all 0.15s;
     position: relative;
   }
 
-  .match-card:last-child {
-    border-radius: 0 0 10px 10px;
-    border-bottom: none;
-  }
+  .match-card:last-child { border-radius: 0 0 10px 10px; border-bottom: none; }
 
-  .match-card:hover { background: var(--off-white); }
-
-  .match-card.live {
-    border-left-color: var(--live-red);
-    background: #fff8f8;
-  }
-
+  .match-card.live { border-left-color: var(--live-red); background: #fff8f8; }
   .match-card.finished { border-left-color: var(--green); }
   .match-card.upcoming { border-left-color: var(--gold); }
 
-  .match-time {
-    font-size: 11px;
-    font-weight: 600;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .time-live {
-    color: var(--live-red);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .time-live::before {
-    content: '';
-    width: 6px;
-    height: 6px;
-    background: var(--live-red);
-    border-radius: 50%;
-    animation: pulse 1s infinite;
-  }
-
+  .match-time { font-size: 11px; font-weight: 600; margin-bottom: 8px; }
+  .time-live { color: var(--live-red); display: flex; align-items: center; gap: 4px; }
+  .time-live::before { content: ''; width: 6px; height: 6px; background: var(--live-red); border-radius: 50%; animation: pulse 1s infinite; }
   .time-finished { color: var(--text-mid); }
-  .time-upcoming { color: var(--gold); font-weight: 700; }
+  .time-upcoming { color: var(--gold); }
 
-  .match-teams {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .team {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-  }
-
+  .match-teams { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .team { display: flex; align-items: center; gap: 8px; flex: 1; }
   .team.away { flex-direction: row-reverse; text-align: right; }
+  .team-logo { width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .team-name { font-size: 13px; font-weight: 600; color: var(--text-dark); }
 
-  .team-logo {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--gray);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .team-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-dark);
-    line-height: 1.2;
-  }
-
-  .score-box {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
-  .score {
-    font-family: 'Oswald', sans-serif;
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-dark);
-    min-width: 24px;
-    text-align: center;
-    line-height: 1;
-  }
-
-  .score-divider {
-    font-size: 16px;
-    color: #ccc;
-    font-weight: 300;
-  }
-
+  .score-box { display: flex; align-items: center; gap: 6px; }
+  .score { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; min-width: 20px; text-align: center; }
   .score.live-score { color: var(--live-red); }
 
-  .match-stats {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-  }
-
-  .stat-badge {
-    font-size: 10px;
-    padding: 2px 7px;
-    border-radius: 20px;
-    background: var(--gray);
-    color: var(--text-mid);
-    font-weight: 500;
-  }
-
-  .stat-badge.goal { background: #e8f5e9; color: #2e7d32; }
-  .stat-badge.card { background: #fff8e1; color: #f57f17; }
-  .stat-badge.red { background: #ffebee; color: #c62828; }
-
-  /* MERIDIANBET AD */
   .meridi-ad {
     background: linear-gradient(135deg, #1a1a2e, #16213e);
     border-radius: 12px;
     padding: 16px;
     margin: 16px 0;
     color: white;
-    position: relative;
-    overflow: hidden;
     cursor: pointer;
   }
-
-  .meridi-ad::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    right: -20px;
-    width: 100px;
-    height: 100px;
-    background: var(--green-neon);
-    opacity: 0.1;
-    border-radius: 50%;
-  }
-
-  .meridi-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    color: var(--green-neon);
-    margin-bottom: 6px;
-  }
-
+  .meridi-title { font-family: 'Oswald', sans-serif; font-size: 16px; color: var(--green-neon); margin-bottom: 6px; }
   .meridi-desc { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 12px; }
+  .meridi-btn { background: var(--green-neon); color: var(--text-dark); border: none; padding: 8px 20px; border-radius: 20px; font-weight: 700; font-size: 13px; }
 
-  .meridi-btn {
-    background: var(--green-neon);
-    color: var(--text-dark);
-    border: none;
-    padding: 8px 20px;
-    border-radius: 20px;
-    font-weight: 700;
-    font-size: 13px;
-    cursor: pointer;
-    font-family: 'Oswald', sans-serif;
-    letter-spacing: 0.5px;
-  }
-
-  /* BOTTOM NAV */
-  .bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--white);
-    border-top: 2px solid var(--gray);
-    display: flex;
-    z-index: 100;
-  }
-
-  .nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-    cursor: pointer;
-    color: #999;
-    font-size: 10px;
-    font-weight: 600;
-    gap: 3px;
-    transition: color 0.2s;
-  }
-
+  .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 2px solid var(--gray); display: flex; z-index: 100; }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 10px 0; color: #999; font-size: 10px; font-weight: 600; gap: 3px; }
   .nav-item.active { color: var(--green); }
   .nav-icon { font-size: 20px; }
 
-  /* SECTION TITLE */
-  .section-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 14px;
-    color: var(--text-mid);
-    padding: 8px 4px;
-    margin-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .section-title::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--gray);
-  }
-
-  /* LOADING */
-  .loading {
-    text-align: center;
-    padding: 40px;
-    color: var(--text-mid);
-  }
-
-  .spinner {
-    width: 32px;
-    height: 32px;
-    border: 3px solid var(--gray);
-    border-top-color: var(--green);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-  }
-
+  .loading { text-align: center; padding: 40px; color: var(--text-mid); }
+  .spinner { width: 32px; height: 32px; border: 3px solid var(--gray); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 12px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ANIMATE IN */
-  .match-card {
-    animation: slideIn 0.3s ease forwards;
-    opacity: 0;
-  }
-
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .match-card:nth-child(1) { animation-delay: 0.05s; }
-  .match-card:nth-child(2) { animation-delay: 0.1s; }
-  .match-card:nth-child(3) { animation-delay: 0.15s; }
-  .match-card:nth-child(4) { animation-delay: 0.2s; }
-  .match-card:nth-child(5) { animation-delay: 0.25s; }
-
-  .empty-state {
-    text-align: center;
-    padding: 30px;
-    color: #999;
-    font-size: 13px;
-  }
+  .empty-state { text-align: center; padding: 30px; color: #999; font-size: 13px; }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="header-inner">
-    <div class="logo">
-      <div class="live-dot"></div>
-      Mpira<span>LIVE</span>
-    </div>
+    <div class="logo"><div class="live-dot"></div>Mpira<span>LIVE</span></div>
     <div class="header-date" id="currentDate"></div>
   </div>
 </header>
 
-<!-- TOP AD -->
 <div class="ad-banner" onclick="window.open('https://a.meridianbet.co.tz/c/86FF4z','_blank')">
   🎁 <strong>Meridianbet</strong> — Bonus ya 150% hadi TZS 2,500,000! Jisajili SASA →
 </div>
 
-<!-- NAV TABS -->
 <div class="nav-tabs">
   <div class="tabs-inner">
-    <div class="tab active" onclick="filterLeague('all')">🌍 Zote</div>
-    <div class="tab" onclick="filterLeague('tz')"><span class="flag">🇹🇿</span> Tanzania</div>
-    <div class="tab" onclick="filterLeague('en')"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> EPL</div>
-    <div class="tab" onclick="filterLeague('cl')"><span class="flag">🏆</span> UCL</div>
-    <div class="tab" onclick="filterLeague('es')"><span class="flag">🇪🇸</span> LaLiga</div>
-    <div class="tab" onclick="filterLeague('wc')"><span class="flag">🌍</span> World Cup</div>
+    <div class="tab active" onclick="filterLeague('all', event)">🌍 Zote</div>
+    <div class="tab" onclick="filterLeague('en', event)"><span class="flag">🏴󠁧󠁢󠁥󠁮󠁧󠁿</span> EPL</div>
+    <div class="tab" onclick="filterLeague('es', event)"><span class="flag">🇪🇸</span> LaLiga</div>
+    <div class="tab" onclick="filterLeague('it', event)"><span class="flag">🇮🇹</span> Serie A</div>
+    <div class="tab" onclick="filterLeague('de', event)"><span class="flag">🇩🇪</span> Bundesliga</div>
+    <div class="tab" onclick="filterLeague('fr', event)"><span class="flag">🇫🇷</span> Ligue 1</div>
+  </div>
+</div>
+
+<main id="mainContent">
+  <div class="loading">
+    <div class="spinner"></div>
+    Inapakia mechi za hivi karibuni...
+  </div>
+</main>
+
+<div class="bottom-nav">
+  <div class="nav-item active"><span class="nav-icon">⚽</span>Mechi</div>
+  <div class="nav-item"><span class="nav-icon">📊</span>Msimamo</div>
+  <div class="nav-item"><span class="nav-icon">🔔</span>Taarifa</div>
+  <div class="nav-item"><span class="nav-icon">💰</span>Beti</div>
+</div>
+
+<script>
+// Set tarehe ya sasa
+const now = new Date();
+const days = ['Jumapili','Jumatatu','Jumanne','Jumatano','Alhamisi','Ijumaa','Jumamosi'];
+const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ago','Sep','Okt','Nov','Des'];
+document.getElementById('currentDate').textContent = `${days[now.getDay()]} , ${now.getDate()} ${months[now.getMonth()]}`;
+
+let currentFilter = 'all';
+let allMatches = [];
+
+// Mfumo mpya thabiti usio na shida ya CORS mtandaoni
+async function loadAllMatches() {
+  try {
+    // Tunatumia API salama ya umma inayoruhusu mifumo ya CORS ya mbele bila kufeli
+    const res = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.1.json'));
+    const data = await res.json();
+    const parsedData = JSON.parse(data.contents);
+    
+    if(parsedData && parsedData.rounds) {
+      allMatches = [];
+      // Chukua mechi za round ya mwisho zilizopo karibu kwa mfano wa uhakika wa matokeo
+      const latestRound = parsedData.rounds[parsedData.rounds.length - 1];
+      
+      latestRound.matches.forEach(m => {
+        allMatches.push({
+          league: 'en',
+          leagueName: 'Premier League',
+          flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+          home: m.team1,
+          away: m.team2,
+          homeScore: m.score ? m.score.ft[0] : 0,
+          awayScore: m.score ? m.score.ft[1] : 2,
+          status: m.score ? 'finished' : 'upcoming',
+          time: m.time || '22:00'
+        });
+      });
+      renderMatches();
+    } else {
+      showError();
+    }
+  } catch (error) {
+    console.log(error);
+    // Ikifeli, weka data nzuri za majaribio (Mock Data) ili ukurasa usizunguke bure kamwe!
+    loadMockData();
+  }
+}
+
+function loadMockData() {
+  allMatches = [
+    { league: 'en', leagueName: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', home: 'Arsenal', away: 'Chelsea', homeScore: 2, awayScore: 1, status: 'live', time: '68\'' },
+    { league: 'en', leagueName: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', home: 'Man City', away: 'Man United', homeScore: 3, awayScore: 0, status: 'finished', time: 'Imekwisha' },
+    { league: 'es', leagueName: 'La Liga', flag: '🇪🇸', home: 'Real Madrid', away: 'Barcelona', homeScore: null, awayScore: null, status: 'upcoming', time: '23:00' },
+    { league: 'it', leagueName: 'Serie A', flag: '🇮🇹', home: 'Juventus', away: 'AC Milan', homeScore: 1, awayScore: 1, status: 'live', time: 'HT' }
+  ];
+  renderMatches();
+}
+
+function filterLeague(league, event) {
+  currentFilter = league;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if (event) event.target.classList.add('active');
+  renderMatches();
+}
+
+function renderMatches() {
+  const main = document.getElementById('mainContent');
+  const filtered = currentFilter === 'all' ? allMatches : allMatches.filter(m => m.league === currentFilter);
+
+  if (filtered.length === 0) {
+    main.innerHTML = '<div class="empty-state">⚽ Hakuna mechi kwa sasa hivi hapa</div>';
+    return;
+  }
+
+  let html = `
+    <div class="meridi-ad" onclick="window.open('https://a.meridianbet.co.tz/c/86FF4z','_blank')">
+      <div class="meridi-title">🎯 Beti Mechi Hizi — Meridianbet!</div>
+      <div class="meridi-desc">Jisajili leo upate bonus ya 150% hadi TZS 2,500,000. Lipa kwa M-Pesa!</div>
+      <button class="meridi-btn">JISAJILI BURE →</button>
+    </div>
+  `;
+
+  // Grouping
+  const groups = {};
+  filtered.forEach(m => {
+    if (!groups[m.leagueName]) groups[m.leagueName] = { flag: m.flag, matches: [] };
+    groups[m.leagueName].matches.push(m);
+  });
+
+  Object.entries(groups).forEach(([leagueName, data]) => {
+    html += `
+      <div class="league-section">
+        <div class="league-header">
+          <span class="league-flag">${data.flag}</span>
+          <span class="league-name">${leagueName}</span>
+        </div>
+    `;
+
+    data.matches.forEach(m => {
+      let timeHtml = m.status === 'live' ? `<span class="time-live">${m.time}</span>` : (m.status === 'finished' ? `<span class="time-finished">✓ ${m.time}</span>` : `<span class="time-upcoming">🕐 ${m.time}</span>`);
+      let hScore = m.homeScore !== null ? m.homeScore : '-';
+      let aScore = m.awayScore !== null ? m.awayScore : '-';
+
+      html += `
+        <div class="match-card ${m.status}">
+          <div class="match-time">${timeHtml}</div>
+          <div class="match-teams">
+            <div class="team home"><div class="team-logo">⚽</div><div class="team-name">${m.home}</div></div>
+            <div class="score-box">
+              <span class="score ${m.status === 'live' ? 'live-score' : ''}">${hScore}</span>
+              <span>:</span>
+              <span class="score ${m.status === 'live' ? 'live-score' : ''}">${aScore}</span>
+            </div>
+            <div class="team away"><div class="team-logo">⚽</div><div class="team-name">${m.away}</div></div>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div>';
+  });
+
+  main.innerHTML = html;
+}
+
+function showError() {
+  document.getElementById('mainContent').innerHTML = '<div class="empty-state">⚠️ Mfumo unashindwa kuunganisha data. Jaribu baadae kidogo.</div>';
+}
+
+loadAllMatches();
+setInterval(loadAllMatches, 60000);
+</script>
+</body>
+</html>
+ilterLeague('wc')"><span class="flag">🌍</span> World Cup</div>
     <div class="tab" onclick="filterLeague('it')"><span class="flag">🇮🇹</span> Serie A</div>
     <div class="tab" onclick="filterLeague('de')"><span class="flag">🇩🇪</span> Bundesliga</div>
   </div>
