@@ -3,37 +3,742 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MpiraLIVE — Premium Streaming App</title>
+<title>NellyTV — Tazama Mechi Live HD & Tabiri Ushindi</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Oswald:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 
 <style>
   :root {
-    --bg-dark: #0a0f1d;
-    --bg-card: #121829;
-    --cyan: #00d2ff;
+    --bg-dark-core: #0b111e;
+    --bg-card: #131c2e;
+    --green-primary: #00a86b;
     --gold: #f4a228;
     --text-white: #ffffff;
-    --text-gray: #7e8ba2;
+    --text-gray: #8a99ad;
     --live-red: #ff3344;
-    --green-free: #00e676;
+    --meridian-red: #e41b23;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
 
   body {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-dark-core);
     color: var(--text-white);
     min-height: 100vh;
     padding-bottom: 90px;
   }
 
-  /* Header style kama NURHD TV */
   header {
-    background-color: var(--bg-dark);
+    background-color: var(--bg-dark-core);
     padding: 16px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .logo-box {
+    color: var(--text-white);
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00cb82, #00764d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .header-icons { display: flex; gap: 16px; color: var(--text-gray); }
+  .icon-btn { font-size: 18px; cursor: pointer; }
+
+  /* SEHEMU YA TANGAZO LINALOTEMBEA (BROADCAST) */
+  .broadcast-ticker {
+    background-color: var(--gold);
+    color: #000;
+    padding: 6px 0;
+    font-size: 11px;
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 25s linear infinite;
+  }
+  @keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+  }
+
+  /* BANGO KUU LA JUU LINALOMOVE (MERIDIANBET SLIDER EFFECT) */
+  .slider-wrapper {
+    margin: 16px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  
+  .meridian-banner-slider {
+    background: linear-gradient(135deg, var(--meridian-red), #990e13);
+    padding: 24px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulseGlow 3s infinite alternate;
+    cursor: pointer;
+  }
+
+  @keyframes pulseGlow {
+    0% { box-shadow: inset 0 0 20px rgba(0,0,0,0.4); }
+    100% { box-shadow: inset 0 0 40px rgba(244,162,40,0.5); }
+  }
+
+  .slider-badge {
+    background: var(--gold);
+    color: #000;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .slider-headline {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    letter-spacing: 0.3px;
+  }
+
+  .slider-subline {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffe0b2;
+    background: rgba(0,0,0,0.2);
+    padding: 4px 12px;
+    border-radius: 6px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+  .dot.active { width: 18px; background: var(--gold); border-radius: 4px; }
+
+  .section-container { margin-bottom: 22px; padding: 0 16px; }
+  .section-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .section-title { font-size: 14px; font-weight: 600; color: var(--text-white); }
+
+  /* ORODHA YA MECHI (DARK STYLE) */
+  .matches-list { display: flex; flex-direction: column; gap: 10px; }
+  .match-strip {
+    background-color: var(--bg-card);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.02);
+  }
+  .match-main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .match-strip.live { border-left: 4px solid var(--live-red); }
+  .match-strip.upcoming { border-left: 4px solid var(--gold); }
+  
+  .match-info { display: flex; flex-direction: column; gap: 2px; }
+  .match-league { font-size: 10px; color: var(--text-gray); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .match-teams { font-size: 14px; font-weight: 600; color: var(--text-white); }
+  .match-watch-btn { font-size: 11px; color: var(--green-primary); margin-top: 4px; font-weight: 600; }
+
+  .match-status { text-align: right; }
+  .status-badge { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; }
+  .status-badge.live-now { background: rgba(255,51,68,0.15); color: var(--live-red); animation: blink 1.2s infinite; }
+  .status-badge.time { background: rgba(244,162,40,0.15); color: var(--gold); }
+
+  /* Kitufe cha kubet chini ya kila mechi */
+  .match-bet-action {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .inner-bet-btn {
+    font-size: 11px;
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  /* Pop-up ya Paywall */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    backdrop-filter: blur(8px);
+  }
+  .close-btn { position: absolute; top: 16px; right: 20px; font-size: 32px; cursor: pointer; color: var(--text-white); }
+  #playerContainer { width: 100%; max-width: 480px; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; display: none; }
+  
+  .paywall-card {
+    text-align: center;
+    max-width: 330px;
+    padding: 26px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: none;
+  }
+  .paywall-icon { font-size: 44px; color: var(--gold); margin-bottom: 10px; }
+  .paywall-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .paywall-desc { font-size: 12px; color: var(--text-gray); line-height: 1.5; }
+  .price-tags { display: flex; justify-content: center; gap: 10px; margin: 16px 0; }
+  .price-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+  .price-item span { display: block; font-size: 9px; color: var(--green-primary); font-weight: 600; }
+  
+  .pay-btn {
+    background: linear-gradient(135deg, var(--green-primary), #00764d);
+    color: var(--text-white); border: none; padding: 12px; width: 100%;
+    font-weight: 700; font-size: 14px; border-radius: 25px; cursor: pointer; margin-top: 6px;
+  }
+
+  /* Bottom Navigation Layout */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background-color: var(--bg-card);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    height: 64px;
+    z-index: 100;
+  }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-gray); font-size: 10px; font-weight: 600; gap: 4px; }
+  .nav-item.active { color: var(--green-primary); }
+  .nav-icon { font-size: 18px; }
+
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 80px; right: 16px; width: 48px; height: 48px;
+    background-color: #25d366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; box-shadow: 0 4px 12px rgba(37,211,102,0.3);
+    z-index: 99; cursor: pointer; color: white;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-box">NellyTV</div>
+  <div class="header-icons">
+    <span class="icon-btn">🔄</span>
+    <span class="icon-btn">🔍</span>
+  </div>
+</header>
+
+<div class="broadcast-ticker">
+  <div class="ticker-text" id="broadcastTickerText">📢 Tangazo: Lipia mapema kifurushi cha VIP TZS 3,000 ili kuepuka usumbufu mechi zikianza!</div>
+</div>
+
+<div class="slider-wrapper">
+  <a href="https://a.meridianbet.co.tz/c/86FF4z" target="_blank" class="meridian-banner-slider">
+    <span class="slider-badge">🔥 OFA YA MERIDIANBET</span>
+    <div class="slider-headline">Bonus ya 150% hadi TZS 2,500,000 unapojisajili!</div>
+    <div class="slider-subline">Jisajili SASA na weka jamvi lako 🚀</div>
+    <div class="slider-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </a>
+</div>
+
+<div class="section-container">
+  <div class="section-title-bar">
+    <div class="section-title">Mechi za Live Leo</div>
+    <span style="color: var(--text-gray); font-size: 11px; font-weight: 500;">Muda wa Bongo</span>
+  </div>
+  
+  <div class="matches-list">
+    <div class="match-strip live">
+      <div class="match-main-content" onclick="openMedia('Yanga SC vs Simba SC', 'vip', '')">
+        <div class="match-info">
+          <span class="match-league">Ligi Kuu Bara</span>
+          <span class="match-teams">Yanga SC vs Simba SC</span>
+          <span class="match-watch-btn">Tazama Mechi Mubashara →</span>
+        </div>
+        <div class="match-status">
+          <span class="status-badge live-now">• LIVE 45'</span>
+        </div>
+      </div>
+      <div class="match-bet-action">
+        <a href="https://a.meridianbet.co.tz/c/86FF4z" target="_blank" class="inner-bet-btn">💰 Tabiri mechi hii Meridianbet & Mvua ya Bonus →</a>
+      </div>
+    </div>
+
+    <div class="match-strip upcoming">
+      <div class="match-main-content" onclick="openMedia('Real Madrid vs Barcelona', 'vip', '')">
+        <div class="match-info">
+          <span class="match-league">La Liga</span>
+          <span class="match-teams">Real Madrid vs Barcelona</span>
+          <span class="match-watch-btn">Itapatikana ikianza →</span>
+        </div>
+        <div class="match-status">
+          <span class="status-badge time">23:00</span>
+        </div>
+      </div>
+      <div class="match-bet-action">
+        <a href="https://a.meridianbet.co.tz/c/86FF4z" target="_blank" class="inner-bet-btn">💰 Tabiri mechi hii Meridianbet & Mvua ya Bonus →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="whatsapp-btn" onclick="startPaymentProcess('Msaada au Kulipia Kifurushi')">💬</div>
+
+<div id="mediaModal" class="modal-overlay">
+  <span class="close-btn" onclick="closeMedia()">&times;</span>
+  
+  <div id="playerContainer"></div>
+
+  <div id="paywallScreen" class="paywall-card">
+    <div class="paywall-icon">🔒</div>
+    <h3 class="paywall-title" id="paywallTitle">Maudhui ya VIP</h3>
+    <p class="paywall-desc">Mechi hii ni ya wateja wa VIP pekee. Lipia kifurushi kidogo ili kuifungua sasa hivi kwenye simu yako.</p>
+    
+    <div class="price-tags">
+      <div class="price-item"><span>Wiki Moja</span>TZS 3,000</div>
+      <div class="price-item"><span>Mwezi Mmoja</span>TZS 10,000</div>
+    </div>
+
+    <button class="pay-btn" onclick="startPaymentProcess('Kununua Kifurushi cha VIP')">LIPIA SASA (M-PESA / TIGO / AIRTEL)</button>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
+  <div class="nav-item" onclick="alert('Ukurasa wa Malipo unakuja!')"><span class="nav-icon">💳</span>Malipo</div>
+  <div class="nav-item" onclick="alert('Ukurasa wa Profile unakuja!')"><span class="nav-icon">👤</span>Profile</div>
+</div>
+
+<script>
+  let player = null;
+  const MY_PHONE_NUMBER = "255628816557"; // Namba yako rasmi ya NellyTV
+
+  function openMedia(title, accessType, streamUrl) {
+    const overlay = document.getElementById('mediaModal');
+    const pContainer = document.getElementById('playerContainer');
+    const paywall = document.getElementById('paywallScreen');
+    
+    overlay.style.display = 'flex';
+
+    if (accessType === 'vip') {
+      pContainer.style.display = 'none';
+      paywall.style.display = 'block';
+      document.getElementById('paywallTitle').innerText = title + " (VIP)";
+    } else {
+      paywall.style.display = 'none';
+      pContainer.style.display = 'block';
+      
+      player = new Clappr.Player({
+        source: streamUrl || "https://clappr.io/highline.mp4",
+        parentId: "#playerContainer",
+        width: "100%",
+        height: "100%",
+        autoPlay: true
+      });
+    }
+  }
+
+  function closeMedia() {
+    document.getElementById('mediaModal').style.display = 'none';
+    if (player) {
+      player.destroy();
+      player = null;
+    }
+  }
+
+  function startPaymentProcess(reason) {
+    const accountCode = Math.floor(1000 + Math.random() * 9000);
+    const message = encodeURIComponent(`Habari NellyTV! Nahitaji huduma ya ${reason}.\nNamba yangu ya siri ya Akaunti ni: N-${accountCode}`);
+    window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${message}`, '_blank');
+  }
+</script>
+</body>
+</html>
+    background-color: var(--gold);
+    color: #000;
+    padding: 6px 0;
+    font-size: 11px;
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .ticker-text {
+    display: inline-block;
+    padding-left: 100%;
+    animation: ticker 25s linear infinite;
+  }
+  @keyframes ticker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+  }
+
+  /* BANGO KUU LA JUU LINALOMOVE (MERIDIANBET SLIDER EFFECT) */
+  .slider-wrapper {
+    margin: 16px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  
+  .meridian-banner-slider {
+    background: linear-gradient(135deg, var(--meridian-red), #990e13);
+    padding: 24px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: pulseGlow 3s infinite alternate;
+    cursor: pointer;
+  }
+
+  @keyframes pulseGlow {
+    0% { box-shadow: inset 0 0 20px rgba(0,0,0,0.4); }
+    100% { box-shadow: inset 0 0 40px rgba(244,162,40,0.5); }
+  }
+
+  .slider-badge {
+    background: var(--gold);
+    color: #000;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .slider-headline {
+    font-family: 'Oswald', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 6px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    letter-spacing: 0.5px;
+  }
+
+  .slider-subline {
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffe0b2;
+    background: rgba(0,0,0,0.2);
+    padding: 4px 12px;
+    border-radius: 6px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 50%; }
+  .dot.active { width: 18px; background: var(--gold); border-radius: 4px; }
+
+  .section-container { margin-bottom: 22px; padding: 0 16px; }
+  .section-title-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .section-title { font-size: 14px; font-weight: 600; color: var(--text-white); }
+
+  /* ORODHA YA MECHI (DARK STYLE) */
+  .matches-list { display: flex; flex-direction: column; gap: 10px; }
+  .match-strip {
+    background-color: var(--bg-card);
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border: 1px solid rgba(255,255,255,0.02);
+  }
+  .match-main-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .match-strip.live { border-left: 4px solid var(--live-red); }
+  .match-strip.upcoming { border-left: 4px solid var(--gold); }
+  
+  .match-info { display: flex; flex-direction: column; gap: 2px; }
+  .match-league { font-size: 10px; color: var(--text-gray); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .match-teams { font-size: 14px; font-weight: 600; color: var(--text-white); }
+  .match-watch-btn { font-size: 11px; color: var(--green-primary); margin-top: 4px; font-weight: 600; }
+
+  .match-status { text-align: right; }
+  .status-badge { font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 20px; text-transform: uppercase; }
+  .status-badge.live-now { background: rgba(255,51,68,0.15); color: var(--live-red); animation: blink 1.2s infinite; }
+  .status-badge.time { background: rgba(244,162,40,0.15); color: var(--gold); }
+
+  /* Kitufe cha kubet chini ya kila mechi */
+  .match-bet-action {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed rgba(255,255,255,0.05);
+    display: flex;
+    justify-content: flex-end;
+  }
+  .inner-bet-btn {
+    font-size: 11px;
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+  /* Pop-up ya Paywall */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    backdrop-filter: blur(8px);
+  }
+  .close-btn { position: absolute; top: 16px; right: 20px; font-size: 32px; cursor: pointer; color: var(--text-white); }
+  #playerContainer { width: 100%; max-width: 480px; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; display: none; }
+  
+  .paywall-card {
+    text-align: center;
+    max-width: 330px;
+    padding: 26px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.05);
+    display: none;
+  }
+  .paywall-icon { font-size: 44px; color: var(--gold); margin-bottom: 10px; }
+  .paywall-title { font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .paywall-desc { font-size: 12px; color: var(--text-gray); line-height: 1.5; }
+  .price-tags { display: flex; justify-content: center; gap: 10px; margin: 16px 0; }
+  .price-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 8px 14px; border-radius: 8px; font-size: 13px; font-weight: 700; }
+  .price-item span { display: block; font-size: 9px; color: var(--green-primary); font-weight: 600; }
+  
+  .pay-btn {
+    background: linear-gradient(135deg, var(--green-primary), #00764d);
+    color: var(--text-white); border: none; padding: 12px; width: 100%;
+    font-weight: 700; font-size: 14px; border-radius: 25px; cursor: pointer; margin-top: 6px;
+  }
+
+  /* Bottom Navigation Layout */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background-color: var(--bg-card);
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    height: 64px;
+    z-index: 100;
+  }
+  .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-gray); font-size: 10px; font-weight: 600; gap: 4px; }
+  .nav-item.active { color: var(--green-primary); }
+  .nav-icon { font-size: 18px; }
+
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 80px; right: 16px; width: 48px; height: 48px;
+    background-color: #25d366; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; box-shadow: 0 4px 12px rgba(37,211,102,0.3);
+    z-index: 99; cursor: pointer; color: white;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-box">NellyTV</div>
+  <div class="header-icons">
+    <span class="icon-btn">🔄</span>
+    <span class="icon-btn">🔍</span>
+  </div>
+</header>
+
+<div class="broadcast-ticker">
+  <div class="ticker-text" id="broadcastTickerText">📢 Tangazo: Lipia mapema kifurushi cha VIP TZS 3,000 ili kuepuka usumbufu mechi zikianza!</div>
+</div>
+
+<div class="slider-wrapper">
+  <a href="https://a.meridianbet.co.tz/c/86FF4z" target="_blank" class="meridian-banner-slider">
+    <span class="slider-badge">🔥 OFA YA MERIDIANBET</span>
+    <div class="slider-headline">Bonus ya 150% hadi TZS 2,000,000 unapojisajili!</div>
+    <div class="slider-subline">Jisajili SASA na weka jamvi lako 🚀</div>
+    <div class="slider-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </a>
+</div>
+
+<div class="section-container">
+  <div class="section-title-bar">
+    <div class="section-title">Mechi za Live Leo</div>
+    <span style="color: var(--text-gray); font-size: 11px; font-weight: 500;">Muda wa Bongo</span>
+  </div>
+  
+  <div class="matches-list">
+    <div class="match-strip live">
+      <div class="match-main-content" onclick="openMedia('Yanga SC vs Simba SC', 'vip', '')">
+        <div class="match-info">
+          <span class="match-league">Ligi Kuu Bara</span>
+          <span class="match-teams">Yanga SC vs Simba SC</span>
+          <span class="match-watch-btn">Tazama Mechi Mubashara →</span>
+        </div>
+        <div class="match-status">
+          <span class="status-badge live-now">• LIVE 45'</span>
+        </div>
+      </div>
+      <div class="match-bet-action">
+        <a href="https://a.meridianbet.co.tz/c/86FF4z" target="_blank" class="inner-bet-btn">💰 Tabiri mechi hii Meridianbet & Mvua ya Bonus →</a>
+      </div>
+    </div>
+
+    <div class="match-strip upcoming">
+      <div class="match-main-content" onclick="openMedia('Real Madrid vs Barcelona', 'vip', '')">
+        <div class="match-info">
+          <span class="match-league">La Liga</span>
+          <span class="match-teams">Real Madrid vs Barcelona</span>
+          <span class="match-watch-btn">Itapatikana ikianza →</span>
+        </div>
+        <div class="match-status">
+          <span class="status-badge time">23:00</span>
+        </div>
+      </div>
+      <div class="match-bet-action">
+        <a href="https://a.meridianbet.co.tz/c/86FF4z" target="_blank" class="inner-bet-btn">💰 Tabiri mechi hii Meridianbet & Mvua ya Bonus →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="whatsapp-btn" onclick="startPaymentProcess('Msaada au Kulipia Kifurushi')">💬</div>
+
+<div id="mediaModal" class="modal-overlay">
+  <span class="close-btn" onclick="closeMedia()">&times;</span>
+  
+  <div id="playerContainer"></div>
+
+  <div id="paywallScreen" class="paywall-card">
+    <div class="paywall-icon">🔒</div>
+    <h3 class="paywall-title" id="paywallTitle">Maudhui ya VIP</h3>
+    <p class="paywall-desc">Mechi hii ni ya wateja wa VIP pekee. Lipia kifurushi kidogo ili kuifungua sasa hivi kwenye simu yako.</p>
+    
+    <div class="price-tags">
+      <div class="price-item"><span>Wiki Moja</span>TZS 3,000</div>
+      <div class="price-item"><span>Mwezi Mmoja</span>TZS 10,000</div>
+    </div>
+
+    <button class="pay-btn" onclick="startPaymentProcess('Kununua Kifurushi cha VIP')">LIPIA SASA (M-PESA / TIGO / AIRTEL)</button>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item active"><span class="nav-icon">🏠</span>Home</div>
+  <div class="nav-item" onclick="alert('Ukurasa wa Malipo unakuja!')"><span class="nav-icon">💳</span>Malipo</div>
+  <div class="nav-item" onclick="alert('Ukurasa wa Profile unakuja!')"><span class="nav-icon">👤</span>Profile</div>
+</div>
+
+<script>
+  let player = null;
+  const MY_PHONE_NUMBER = "255712345678"; // Weka namba yako hapa
+
+  function openMedia(title, accessType, streamUrl) {
+    const overlay = document.getElementById('mediaModal');
+    const pContainer = document.getElementById('playerContainer');
+    const paywall = document.getElementById('paywallScreen');
+    
+    overlay.style.display = 'flex';
+
+    if (accessType === 'vip') {
+      pContainer.style.display = 'none';
+      paywall.style.display = 'block';
+      document.getElementById('paywallTitle').innerText = title + " (VIP)";
+    } else {
+      paywall.style.display = 'none';
+      pContainer.style.display = 'block';
+      
+      player = new Clappr.Player({
+        source: streamUrl || "https://clappr.io/highline.mp4",
+        parentId: "#playerContainer",
+        width: "100%",
+        height: "100%",
+        autoPlay: true
+      });
+    }
+  }
+
+  function closeMedia() {
+    document.getElementById('mediaModal').style.display = 'none';
+    if (player) {
+      player.destroy();
+      player = null;
+    }
+  }
+
+  function startPaymentProcess(reason) {
+    const accountCode = Math.floor(1000 + Math.random() * 9000);
+    const message = encodeURIComponent(`Habari NellyTV! Nahitaji huduma ya ${reason}.\nNamba yangu ya siri ya Akaunti ni: N-${accountCode}`);
+    window.open(`https://wa.me/${MY_PHONE_NUMBER}?text=${message}`, '_blank');
+  }
+</script>
+</body>
+</html>
     justify-content: space-between;
     position: sticky;
     top: 0;
