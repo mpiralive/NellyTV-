@@ -3,30 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <style>
-  body { background: #0b111e; color: white; font-family: sans-serif; padding: 20px; }
-  .container { max-width: 400px; margin: auto; background: #131c2e; padding: 20px; border-radius: 15px; }
-  input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; }
-  button { width: 100%; padding: 10px; background: #00a86b; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-  h2, h3 { color: #f4a228; text-align: center; }
+    body { background: #0b111e; color: white; font-family: sans-serif; padding: 20px; }
+    .container { max-width: 400px; margin: auto; background: #131c2e; padding: 25px; border-radius: 15px; border: 1px solid #1f2a40; }
+    h2 { color: #f4a228; text-align: center; }
+    input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #2d3e5e; background: #0b111e; color: white; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; background: #00a86b; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h2>NellyTV Admin</h2>
-  <h3>Zalisha Password</h3>
-  <input type="number" id="validDays" value="7">
-  <button onclick="alert('Password itazalishwa!')">ZALISHA PASSWORD</button>
-
-  <h3 style="margin-top:30px">Ongeza Mechi Live</h3>
-  <input type="text" id="matchName" placeholder="Jina la Mechi">
-  <input type="text" id="matchLink" placeholder="Link (.m3u8)">
-  <button style="background: #f4a228;" onclick="addMatch()">ONGEZA MECHI</button>
+    <h2>NellyTV Admin</h2>
+    <h3>Ongeza Mechi</h3>
+    <input type="text" id="matchName" placeholder="Jina la Mechi (mf: Simba vs Yanga)">
+    <input type="text" id="matchLink" placeholder="Link ya Mechi (.m3u8)">
+    <button style="background: #f4a228;" onclick="addMatch()">ONGEZA MECHI</button>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBOYv4r1HBdmiTi lZIchXQ_w",
@@ -44,10 +40,17 @@
   window.addMatch = function() {
       const name = document.getElementById('matchName').value;
       const link = document.getElementById('matchLink').value;
-      if(!name || !link) { alert("Jaza vyote mkuu!"); return; }
-      push(ref(database, 'matches'), { name, link }).then(() => alert("Mechi imeongezwa!"));
+      if(name && link) {
+          push(ref(database, 'matches'), { name: name, link: link })
+          .then(() => alert("Mechi imeongezwa kwa mafanikio!"));
+      } else {
+          alert("Tafadhali jaza jina la mechi na link!");
+      }
   }
 </script>
 </body>
 </html>
+
+
+
 
